@@ -1,0 +1,118 @@
+/**index.wxss**/
+
+
+/**login layer**/
+.header {
+    margin: 90rpx 0 90rpx 50rpx;
+    border-bottom: 1px dashed #ccc;
+    text-align: center;
+    width: 650rpx;
+    height: 300rpx;
+    line-height: 450rpx;
+}
+ 
+.header image {
+    width: 200rpx;
+    height: 200rpx;
+    border-radius: 50%;
+}
+ 
+.content {
+    margin-left: 50rpx;
+    margin-bottom: 90rpx;
+    font-size:42rpx;
+}
+ 
+.content text {
+    display: block;
+    color: #888;
+    margin-top: 30rpx;
+    font-size:32rpx;
+}
+ 
+.bottom {
+    border-radius: 80rpx;
+    margin: 70rpx 50rpx;
+    font-size: 35rpx;
+}
+
+/**正式页面**/
+
+ 
+.nextcourse-title{ 
+  border-left:solid 16rpx #3CB371; 
+}
+
+.nextcourse-content{ 
+}
+
+.course-info-wrap{
+  margin-top:10rpx;
+}
+
+.course-date{
+  font-size:42rpx;
+  font-weight: bold;
+}
+
+.course-date-tip{
+  font-size:24rpx;
+  color:#888;
+}
+
+.course-name{
+  line-height:1.8;
+}
+
+.course-name-tip{
+  font-size:24rpx;
+  color:#888;
+}
+
+.course-info{ 
+  font-size:32rpx;
+  margin-top:26rpx;
+}
+
+.date-title{
+  border-left:solid 16rpx #FF8C00;
+}
+
+.mate-title{
+  border-left:solid 16rpx #1E90FF;
+}
+
+/**我的信息**/
+.card-my-wrap{
+
+}
+
+
+/**同学列表-按名字排序**/
+.classmate-item-wrap{
+  width:126rpx;
+  height:150rpx;
+  padding:18rpx 0;
+  float:left;
+}
+
+.classmate-item-header{
+  margin:auto;
+  width:110rpx;
+  height:120rpx;
+  text-align: center;
+}
+
+.classmate-item-header image{
+  width:110rpx;
+  height:110rpx; 
+  border-radius: 20rpx;
+}
+
+.classmate-item-name{
+  text-align: center;
+  font-size:26rpx;
+}
+
+
+
