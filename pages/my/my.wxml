@@ -10,12 +10,12 @@
       </view>
 
       <view class="my-label-wrap">
-        <text class="label bg-purple">游道平</text>
-        <text class="label bg-blue">男</text>
-        <text class="label bg-orange">江西人</text>
+        <text class="label bg-purple">游道平</text>
+        <text class="label bg-blue">男</text>
+        <text class="label bg-orange">江西人</text>
         <text class="label bg-yellow">PB4班</text>
         <text class="label">约饭10次</text>
-        <text class="label">被约20次</text>
+        <text class="label">被约20次</text>
       </view>
     </view>
 
@@ -29,15 +29,15 @@
 
     <text class="card-title bl-blue">我的兴趣爱好？</text>
 
-    <view class="card-content card-content-tip">写代码，看美剧，学习各种有趣的知识。</view>
+    <view class="card-content card-content-tip">写代码，看美剧，学习各种有趣的知识。</view>
 
-    <text class="card-title bl-red">我擅长做什么？</text>
+    <text class="card-title bl-red">我擅长做什么？</text>
 
-    <view class="card-content card-content-tip">写代码，拆解和通过技术落地实现软件需求。</view>
+    <view class="card-content card-content-tip">写代码，拆解和通过技术落地实现软件需求。</view>
 
-    <text class="card-title bl-green">我的资源是什么？</text>
+    <text class="card-title bl-green">我的资源是什么？</text>
 
-    <view class="card-content card-content-tip">各种软件开发经验，购买的100多门得到课程？</view>
+    <view class="card-content card-content-tip">各种软件开发经验，购买的100多门得到课程？</view>
 
   </view>
 

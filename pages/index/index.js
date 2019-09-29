@@ -4,10 +4,10 @@ const app = getApp()
 
 Page({
   data: {
-    //判断小程序的API，回调，参数，组件等是否在当前版本可用。 
     userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    userDateCount:{dateCnt:0,callDateCnt:0},
+    animationData: {}, 
+    shakeTimeHandler: null
   },
   //事件处理函数
   goCourse: function() {
@@ -15,70 +15,47 @@ Page({
       url: '../course/course'
     })
   },
-  goMy:function(){
+  goMy: function() {
     wx.navigateTo({
       url: '../my/my'
     })
   },
 
+  //页面onload 
+  onLoad: function() {
+    this.setData({ userInfo: app.globalData.userInfo}); 
+  },
 
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
+  onShow: function() {
+    var animation = wx.createAnimation({
+      duration: 2000,
+      timingFunction: 'linear',
+    })
+
+    clearTimeout(this.data.shakeTimeHandler);
+
+    this.data.shakeTimeHandler = setTimeout(function() {
+      //添加左右抖动动画效果
+      for (var i = 0; i < 8; i++) {
+        var d = 160 - i * 10;
+        animation.translateX(16).step({
+          duration: d
         })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-  },
-  getUserInfo: function(e) {
-    console.log("getUserInfo=>")
-    console.log(e); 
-    if(typeof(e.detail.userInfo)=="undefined"){
-      console.log("getUserInfo=>cancel")
-      return;
-    }
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
+        animation.translateX(-16).step({ 
+          duration: d
+        }) 
+      };
 
-    //发起请求保持userInfo到服务器
-    wx.login({
-      success:function(res){
-        if (res.code) { 
-          console.log("loginApi=>"+app.api.login);
-          wx.request({
-            url: app.api.login,
-            data: {
-              code: res.code,
-              userInfo: e.detail.userInfo
-            }
-          }); 
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        } 
-      }
-    })
+
+      animation.translateX(0).step({
+        duration: 10
+      });
+      if (app.globalData.userInfo) {
+        this.setData({
+          animationData: animation.export()
+        })
+      } 
+    }.bind(this), 2000)
   },
+ 
 })

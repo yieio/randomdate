@@ -9,7 +9,7 @@
       <view class="course-item-time">
         <text>9:00-12:00 @震寰堂C318</text>
       </view>
-      <view class="course-item-name-wrap">
+      <view class="course-item-name-wrap bg-green">
         <view class="course-item-name">
           <text>数据模型与决策</text>
         </view>
@@ -77,7 +77,7 @@
       <view class="course-item-time">
         <text>9:00-12:00 @震寰堂C318</text>
       </view>
-      <view class="course-item-name-wrap">
+      <view class="course-item-name-wrap  bg-green">
         <view class="course-item-name">
           <text>数据模型与决策</text>
         </view>

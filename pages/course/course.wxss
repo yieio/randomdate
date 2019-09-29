@@ -33,8 +33,7 @@ page{
 
 .course-item-name-wrap{
   margin-top:4rpx;
-  padding:28rpx;
-  background: #7acbbd;
+  padding:28rpx;  
   color:#fff;
   border-radius: 20rpx;
   box-shadow:0px 0px 3rpx #f1f1f1;

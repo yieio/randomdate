@@ -1,0 +1,56 @@
+<!--首次登录完成信息，班级，姓名，手机号码-->
+<view class="container">
+  <view wx:if="{{canIUse}}">
+    <view class="card">
+      <view class="my-avatar-wrap">
+        <image class="userinfo-avatar" src="/imgs/rice_date_logo.png"></image>
+      </view>
+
+      <text class="card-title">欢迎来约饭</text>
+      <form bindsubmit="signupFormSubmit" report-submit="true">
+        <view class="card-content">
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">真实姓名</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <input id="realName" name="realName" class="weui-input" placeholder="您的真实姓名" adjust-position bindblur="checkTheSignUpForm" value="{{userInfo.realName}}" />
+              </view>
+            </view>
+          </view>
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">手机号码</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <input id="phoneNumber" name="phoneNumber" class="weui-input" type="number" maxlength="11" placeholder="您的手机号码" adjust-position bindblur="checkTheSignUpForm" value="{{userInfo.phoneNumber}}" />
+              </view>
+            </view>
+          </view>
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">选择班级</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <picker id="classNumber" name="classNumber" bindchange="bindClassPickerChange" value="{{classArrary[classIndex]}}" range="{{classArrary}}">
+                  <view class="weui-picker">
+                    {{classArrary[classIndex]}}
+                  </view>
+                </picker>
+              </view>
+            </view>
+          </view>
+
+          <text class="card-content-tip">申请授权获得你的公开信息(昵称，头像等)</text>
+
+        </view>
+        <view class="card-action" style="">
+          <button form-type="submit" open-type="getUserInfo" class="action-btn-green" hover-class="action-btn-hover" lang="zh_CN" disabled="{{signupBtnDisabled}}" bindgetuserinfo="getUserInfo">
+            授权登录
+          </button>
+        </view>
+      </form>
+    </view>
+  </view>
+  <view wx:else>请升级微信版本</view>
+</view>

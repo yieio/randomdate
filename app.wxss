@@ -1,82 +1,131 @@
 /**app.wxss**/
 
-page{
+page {
   background: #f1f1f1;
 }
 
-.container { 
+.container {
   height: 100%;
-  width: 100%; 
+  width: 100%;
   background: #f1f1f1;
-  border-top:solid 1px #f1f1f1;
-} 
+  border-top: solid 1px #f1f1f1;
+}
 
-.card{
- background:#fff;
+.card {
+  background: #fff;
   border-radius: 20rpx;
-  margin:28rpx; 
-  padding-top:30rpx;
-  box-shadow:0px 0px 3rpx #f1f1f1; 
+  margin: 28rpx;
+  padding-top: 30rpx;
+  box-shadow: 0px 0px 3rpx #f1f1f1;
 }
 
-.card-spliter{
-  border-top:dashed 1px #ddd;
-  margin:20rpx 0;
+.card-spliter {
+  border-top: dashed 1px #ddd;
+  margin: 20rpx 0;
 }
 
-.card-title{
-  font-size:32rpx;
-  border-left:solid 16rpx #ff8737;
-  padding-left:14rpx; 
-}
- 
-
-.bl-green{
-  border-left-color:#7acbbd;
+.card-title {
+  font-size: 32rpx;
+  border-left: solid 16rpx #ff8737;
+  padding-left: 14rpx;
 }
 
-.bl-purple{
-  border-left-color:#865fc1;
+.bl-green {
+  border-left-color: #7acbbd;
 }
 
-.bl-orange{
-  border-left-color:#ff8737;
+.bl-purple {
+  border-left-color: #865fc1;
 }
 
-.bl-blue{
-  border-left-color:#46c4f3;
+.bl-orange {
+  border-left-color: #ff8737;
 }
 
-.bl-red{
-  border-left-color:#eb4986;
+.bl-blue {
+  border-left-color: #46c4f3;
 }
 
-.bl-yellow{
-  border-left-color:#ffb72b;
+.bl-red {
+  border-left-color: #eb4986;
 }
 
-.card-content{ 
-  font-size:32rpx;
-  padding:30rpx; 
+.bl-yellow {
+  border-left-color: #ffb72b;
 }
 
-.card-content-tip{
-  font-size:28rpx;
-  color:#555;
-  line-height:1.6;
+.card-content {
+  font-size: 32rpx;
+  padding: 30rpx;
 }
 
-.card-action{
-  text-align:center;border-top:dashed 1px #ddd; background:#fbfbfb; border-radius:0 0 20rpx 20rpx;
+.card-content-tip, .weui-cells__title {
+  font-size: 28rpx;
+  color: #555;
+  line-height: 1.6;
 }
 
-.action-btn{
-  height:96rpx; line-height:96rpx; font-size:32rpx;
+.card-content-sub-tip {
+  font-size: 24rpx;
+  color: #888;
+  line-height: 2.0;
 }
 
-.action-btn-hover{
-  background:#f4f4f4;
-  border-radius:0 0 20rpx 20rpx;
+.card-action {
+  text-align: center;
+  border-top: dashed 1px #ddd;
+  background: #fbfbfb;
+  border-radius: 0 0 20rpx 20rpx;
+}
+
+.card-action button{
+  background-color:none;
+  border: none;
+  border-radius: 0 0 20rpx 20rpx;
+  font-size: 32rpx;
+}
+
+.card-action button:after {
+  background-color:none;
+  border: none;
+}
+
+.card-action .action-btn-green{
+  background:#07c160;
+  color:#fff;
+  line-height: 3;
+}
+
+.card-action .action-btn-green.action-btn-hover{
+  background: #7acbbd;
+  border-radius: 0 0 20rpx 20rpx;
+}
+
+.action-btn {
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 32rpx;
+}
+
+.action-btn-hover {
+  background: #f4f4f4;
+  border-radius: 0 0 20rpx 20rpx;
+}
+
+.action-btn-white {
+  background: #fff;
+  border-radius: 0 0 20rpx 20rpx;
+}
+
+.action-btn-right {
+  box-sizing: border-box;
+  border-left: dashed 1px #ddd;
+  color:#07c160;
+}
+
+.action-btn-inline {
+  display: inline-block;
+  width: 50%;
 }
 
 .clearfix:after {
@@ -88,56 +137,75 @@ page{
   height: 0;
 }
 
-.my-avatar-wrap{
+.my-avatar-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.my-avatar-wrap image{
-  width:140rpx;
-  height:140rpx;
+.my-avatar-wrap image {
+  width: 140rpx;
+  height: 140rpx;
   border-radius: 50%;
 }
 
-.my-label-wrap{
-  margin-top:16rpx;
+.my-label-wrap {
+  margin-top: 16rpx;
   text-align: center;
 }
 
-.label{
-  font-size:24rpx;
-  padding:10rpx 20rpx;
-  display:inline-block;
-  margin:10rpx;
+.label {
+  font-size: 24rpx;
+  padding: 10rpx 20rpx;
+  display: inline-block;
+  margin: 10rpx;
   border-radius: 30rpx;
-  color:#ffffff;
+  color: #fff;
 }
 
-.label{
-  background:#7acbbd;
+.label {
+  background: #7acbbd;
 }
 
-.bg-green{
-  background:#7acbbd;
+.bg-white {
+  background: #fff;
 }
 
-.bg-purple{
-  background:#865fc1;
+.bg-green {
+  background: #7acbbd;
 }
 
-.bg-orange{
-  background:#ff8737;
+.bg-purple {
+  background: #865fc1;
 }
 
-.bg-blue{
-  background:#46c4f3;
+.bg-orange {
+  background: #ff8737;
 }
 
-.bg-red{
-  background:#eb4986;
+.bg-blue {
+  background: #46c4f3;
 }
 
-.bg-yellow{
-  background:#ffb72b;
+.bg-red {
+  background: #eb4986;
 }
+
+.bg-yellow {
+  background: #ffb72b;
+}
+
+/**表单**/
+
+.card-form-item{
+  margin-bottom:20rpx;
+}
+
+.weui-input,.weui-picker {
+  background: #f9f9f9;
+  font-size:30rpx;
+  padding:14rpx;
+  line-height:37rpx;
+  height:37rpx;
+}
+ 
