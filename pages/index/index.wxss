@@ -102,4 +102,41 @@
   font-size: 26rpx;
 }
 
+/**half dialog**/
+.weui-demo-dialog{
+  visibility:hidden;
+  opacity:0;
+  transition:all .3s;
+}
+.weui-half-screen-dialog{
+  transition:all .3s;
+  transform:translateY(100%);
+}
+.weui-demo-dialog_show{
+  visibility:visible;
+  opacity:1;
+}
+.weui-demo-dialog_show .weui-half-screen-dialog{
+    transform:translateY(0);
+}
 
+.date-item-wrap{
+  text-align: left;
+}
+
+.date-item{
+  display: inline-block;
+  border: 1px solid #f6f6f6; 		
+	border-radius: 15rpx;
+  background:#f6f6f6;
+  padding:16rpx 20rpx;
+  margin-right:20rpx;
+  margin-top:16rpx;
+  font-size:30rpx;
+  color: rgba(0,0,0,.6);
+}
+
+.date-item.active{
+  background:#3cb371;
+  color:#fff;
+}

@@ -21,13 +21,10 @@ Page({
   },
 
   //班级选择
-  bindClassPickerChange: function(e) {
-    console.log("bindClassPickerChange=>");
-    console.log(e);
+  bindClassPickerChange: function(e) { 
     this.setData({
       classIndex: e.detail.value
     })
-
   },
 
   //检查signup表单的输入情况，不能为空，手机号码要有11位

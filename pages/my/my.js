@@ -8,20 +8,71 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: {}
+    userInfo: {},
+    isShowEdit: false,
+    isGoEdit: false,
+  },
+  /**
+   * 去编辑用户信息
+   */
+  goEditProfile: function() {
+    this.data.isGoEdit = true;
+    wx.navigateTo({
+      url: '../profile/profile?userId=' + this.data.userInfo.userId
+    })
+  },
+
+  /**
+   * 获取同学档案信息
+   */
+  getClassmateProfile: function(userId) {
+    var _t = this;
+    wx.request({
+      url: app.api.classmateProfile + "?userid=" + userId,
+      method: "GET",
+      header: {
+        'Authorization': 'Bearer ' + app.globalData.userToken.accessToken
+      },
+      dataType: "json",
+      success: function(result) {
+        console.log(result);
+        if (result.data.type == 401) {
+          wx.redirectTo({
+            url: '/pages/signup/signup',
+          })
+          return;
+        }
+        if (result.data.type != 200) {
+          return;
+        }
+
+        var cp = result.data.data.classmateProfile;
+        cp.genderName = app.getGenderName(cp.gender);
+
+        _t.setData({
+          userInfo: cp
+        });
+
+      }
+    });
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo
-      })
-    }else{
+      this.getClassmateProfile(options.userId);
+      if (app.globalData.userInfo.userId == options.userId) {
+        this.setData({
+          isShowEdit: true,
+          isLoad: true
+        });
+      }
+    } else {
       wx.redirectTo({
-        url: '../index/index'
+        url: '../signup/signup'
       })
     }
 
@@ -30,49 +81,52 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
+  onShow: function() {
+    if (this.data.isGoEdit && app.globalData.userInfo) {
+      this.getClassmateProfile(app.globalData.userInfo.userId);
+      this.data.isGoEdit = false;
+    }
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

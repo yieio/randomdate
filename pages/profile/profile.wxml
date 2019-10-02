@@ -1,0 +1,97 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <view class="card"> 
+      <text class="card-title">设置个人资料</text>
+      <form bindsubmit="profileFormSubmit" report-submit="true">
+        <view class="card-content">
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">真实姓名</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <input id="realName" name="realName" class="weui-input" placeholder="您的真实姓名" adjust-position  value="{{userInfo.realName}}" />
+              </view>
+            </view>
+          </view>
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">性别</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <picker id="classNumber" name="classNumber" bindchange="bindGenderPickerChange" value="{{genderArrary[genderIndex]}}" range="{{genderArrary}}">
+                  <view class="weui-picker">
+                    {{genderArrary[genderIndex]}}
+                  </view>
+                </picker>
+              </view>
+            </view>
+          </view> 
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">手机号码</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <input id="phoneNumber" name="phoneNumber" class="weui-input" type="number" maxlength="11" placeholder="您的手机号码" adjust-position bindblur="checkTheSignUpForm" value="{{userInfo.phoneNumber}}" />
+              </view>
+            </view>
+          </view>
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">选择班级</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <picker id="classNumber" name="classNumber" bindchange="bindClassPickerChange" value="{{classArrary[classIndex]}}" range="{{classArrary}}">
+                  <view class="weui-picker">
+                    {{classArrary[classIndex]}}
+                  </view>
+                </picker>
+              </view>
+            </view>
+          </view> 
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">我是谁?</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <textarea id="myIntro" name="myIntro" class="weui-textarea" placeholder="自我描述，例：我是xx" adjust-position  value="{{userInfo.myIntro}}" />
+              </view>
+            </view>
+          </view>
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">我从哪里来?</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <textarea id="cameFrom" name="cameFrom" class="weui-textarea" placeholder="来自哪里,例：生于xx,毕业于xx,就职于xx" adjust-position  value="{{userInfo.cameFrom}}" />
+              </view>
+            </view>
+          </view>
+
+           <view class="card-form-item">
+            <view class="weui-cells__title">我的兴趣爱好/擅长?</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <textarea id="hobby" name="hobby" class="weui-textarea" placeholder="兴趣爱好,例：打篮球，写代码，看美剧" adjust-position bindblur="checkTheSignUpForm" value="{{userInfo.hobby}}" />
+              </view>
+            </view>
+          </view> 
+
+          <view class="card-form-item">
+            <view class="weui-cells__title">我的资源是什么?</view>
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell weui-cell_input">
+                <textarea id="mySource" name="mySource" class="weui-textarea" placeholder="可共享的资源" adjust-position bindblur="checkTheSignUpForm" value="{{userInfo.mySource}}" />
+              </view>
+            </view>
+          </view>
+
+
+        </view>
+        <view class="card-action" style="">
+          <button form-type="submit"  class="action-btn-green" hover-class="action-btn-hover" disabled="{{submitBtnDisabled}}">
+            确认保存
+          </button>
+        </view>
+      </form>
+    </view>
+</view>

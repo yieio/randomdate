@@ -1,33 +1,31 @@
-<!--index.wxml--> 
+<!--index.wxml-->
 <view class="container">
   <view class="card nextcourse">
     <text class="card-title nextcourse-title">最近课程</text>
-    <view class="card-content nextcourse-content">
-      <view class="course-date-wrap">
-        <text class="course-date">2019/10/13</text>
-        <text class="course-date-tip">  五天后 星期六</text>
-      </view>
-      <view class="course-info-wrap">
-        <view class="course-info">
-          <text class="course-date-tip">9:00-12:00 @震寰堂C318</text>
-          <view class="course-name">数据模型与决策</view>
-          <view class="course-name-tip">黄诒蓉</view>
-        </view>
 
-        <view class="course-info">
-          <text class="course-date-tip">14:00-17:00 @震寰堂C3180</text>
-          <view class="course-name">管理经济学 </view>
-          <view class="course-name-tip">符正平</view>
+    <view wx:if="{{courseDate.hasCourse}}" class="card-content nextcourse-content">
+      <view class="course-date-wrap">
+        <text class="course-date">{{courseDate.date}}</text>
+        <text class="course-date-tip">  {{courseDate.gap}} {{courseDate.week}}</text>
+      </view>
+
+      <view class="course-info-wrap">
+        <view wx:for="{{latestCourse}}" wx:for-index="idx" wx:key="course-{{idx}}" class="course-info">
+          <text class="course-date-tip">{{item.timeGap}} @{{item.classRoom}}</text>
+          <view class="course-name">{{item.name}}</view>
+          <view class="course-name-tip">{{item.teacher}}</view>
         </view>
       </view>
     </view>
+
+    <view wx:else class="card-content card-content-tip">最近没有课~~</view>
 
     <view class="card-action" style="">
       <view class="action-btn" hover-class="action-btn-hover" style="" bindtap='goCourse'>查看课程表</view>
     </view>
   </view>
 
-  <view class="card" animation="{{animationData}}">
+  <view class="card" animation="{{animationData}}" style="display:none;">
     <text class="card-title date-title">男同学xx请你吃饭</text>
     <view class="card-content card-content-tip">
       <text>男同学xx请你【2019/10/13 星期六】在校一起吃午餐。</text>
@@ -44,7 +42,40 @@
     <view class="card-content card-content-tip">点击 [我请你] 后会匿名随机给下面的一个同学发出约饭邀请，对方接受后可以看到彼此。吃饭我们是认真的，请守约哦^_^
     </view>
     <view class="card-action" style="">
-      <view class="action-btn" hover-class="action-btn-hover" style="">我请你</view>
+      <view class="action-btn" hover-class="action-btn-hover" bindtap="openDialog" style="">我请你</view>
+    </view>
+  </view>
+
+  <view class="weui-demo-dialog {{istrue ? 'weui-demo-dialog_show' : ''}}">
+    <view class="weui-mask" bindtap="closeDialog"></view>
+    <view class="weui-half-screen-dialog" catchtap="stopEvent">
+      <view class="weui-half-screen-dialog__hd">
+        <view class="weui-half-screen-dialog__hd__side">
+          <view bindtap="closeDialog" class="weui-icon-btn weui-icon-btn_close">关闭</view>
+        </view>
+        <view class="weui-half-screen-dialog__hd__main">
+          <text class="weui-half-screen-dialog__title">选择约饭日期</text>
+          <!-- <text class="weui-half-screen-dialog__subtitle">标题</text> -->
+        </view>
+        <view class="weui-half-screen-dialog__hd__side">
+          <!-- <view class="weui-icon-btn weui-icon-btn_more">更多</view> -->
+        </view>
+      </view>
+      <view class="weui-half-screen-dialog__bd">
+        <view class="date-item-wrap">
+        <text wx:for="{{dateList}}" wx:for-item="date" wx:key="index" bindtap="selectDate" class="date-item {{dateIndex==index?'active':''}}" data-id="{{index}}">{{date}}</text>
+        </view>
+
+         <view class="date-item-wrap time-item-wrap">
+        <text wx:for="{{timeList}}" wx:for-item="time" wx:key="index" bindtap="selectTime" class="date-item {{timeIndex==index?'active':''}}" data-id="{{index}}">{{time}}</text>
+        </view>
+        <view class="weui-half-screen-dialog__tips">
+          最近课程日期：2019/10/13
+        </view>
+      </view>
+      <view class="weui-half-screen-dialog__ft"> 
+        <button type="primary" class="weui-btn" bindtap="makeDate">确定约饭</button>
+      </view>
     </view>
   </view>
 
@@ -53,7 +84,7 @@
   <view class="card">
     <view class="card-content card-my-wrap">
       <view class="my-avatar-wrap">
-        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" bindtap='goMy'></image>
+        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" id="{{userInfo.userId}}" bindtap='goProfile'></image>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
       </view>
 
@@ -62,70 +93,26 @@
         <text class="label bg-blue">{{userInfo.genderName}}</text>
         <text class="label bg-orange">{{userInfo.province}}{{userInfo.city}}</text>
         <text class="label bg-yellow">{{userInfo.classNumber}}</text>
-        <text class="label">约饭{{userDateCount.dateCnt}}次</text>
-        <text class="label">被约{{userDateCount.callDateCnt}}次</text>
+        <text class="label">约饭{{userDateCount.dateCount}}次</text>
+        <text class="label">被约{{userDateCount.callDateCout}}次</text>
       </view>
     </view>
 
 
     <text class="card-title mate-title">同学</text>
-    <view class="card-content card-content-tip" style="">
+    <view wx:if="{{classmates.length<=0}}" class="card-content card-content-tip" style="">
       还没有同学，发到群里让他们进来先吧^o^
     </view>
-    <view class="card-content clearfix" style="display:none;">
-      <view class="classmate-item-wrap ">
+    <view wx:else class="card-content clearfix">
+      <view wx:for="{{classmates}}" wx:for-item="cmate" wx:for-index="idx" wx:key="cmate-{{idx}}" data-userid="{{cmate.userId}}" id="{{cmate.userId}}" bindtap="goProfile" class="classmate-item-wrap ">
         <view class="classmate-item-header">
-          <image src='/imgs/rice_date_logo.png'></image>
+          <image src='{{cmate.avatarUrl}}'></image>
         </view>
         <view class="classmate-item-name">
-          <text>游道平</text>
+          <text>{{cmate.realName}}</text>
         </view>
       </view>
 
-      <view class="classmate-item-wrap ">
-        <view class="classmate-item-header">
-          <image src='/imgs/rice_date_logo.png'></image>
-        </view>
-        <view class="classmate-item-name">
-          <text>游道平</text>
-        </view>
-      </view>
-
-      <view class="classmate-item-wrap ">
-        <view class="classmate-item-header">
-          <image src='/imgs/rice_date_logo.png'></image>
-        </view>
-        <view class="classmate-item-name">
-          <text>游道平</text>
-        </view>
-      </view>
-
-      <view class="classmate-item-wrap ">
-        <view class="classmate-item-header">
-          <image src='/imgs/rice_date_logo.png'></image>
-        </view>
-        <view class="classmate-item-name">
-          <text>游道平</text>
-        </view>
-      </view>
-
-      <view class="classmate-item-wrap ">
-        <view class="classmate-item-header">
-          <image src='/imgs/rice_date_logo.png'></image>
-        </view>
-        <view class="classmate-item-name">
-          <text>游道平</text>
-        </view>
-      </view>
-
-      <view class="classmate-item-wrap ">
-        <view class="classmate-item-header">
-          <image src='/imgs/rice_date_logo.png'></image>
-        </view>
-        <view class="classmate-item-name">
-          <text>游道平</text>
-        </view>
-      </view>
     </view>
   </view>
 </view>

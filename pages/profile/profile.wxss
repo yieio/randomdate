@@ -1,0 +1,8 @@
+/* pages/profile/profile.wxss */
+
+.weui-textarea {
+  background: #f9f9f9;
+  font-size: 30rpx;
+  padding: 14rpx;
+  height: 120rpx;
+}

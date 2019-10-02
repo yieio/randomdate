@@ -1,138 +1,27 @@
 <!--pages/course/course.wxml-->
 <view class="container">
-  <view class="course-item-wrap">
-    <view class="course-item-date">
-      <text>2019/10/13</text>
-      <text class="course-item-date-tip"> 五天后 星期六</text>
+<view wx:if="{{courses.length>0}}">
+  <view wx:for="{{courses}}" wx:for-item="cDate" wx:for-index="idx" wx:key="cdate-{{idx}}" class="course-item-wrap">
+    <view class="course-item-date" style="border-left:solid 14rpx {{cDate.color}};">
+      <text>{{cDate.date}}</text>
+      <text class="course-item-date-tip"> {{cDate.gap}} {{cDate.week}}</text>
     </view>
-    <view class="course-item-sub-wrap">
+    <view wx:for="{{cDate.courseItems}}" wx:for-item="course" wx:for-index="idy" wx:key="course-{{idy}}" class="course-item-sub-wrap">
       <view class="course-item-time">
-        <text>9:00-12:00 @震寰堂C318</text>
+        <text>{{course.timeGap}} @{{course.classRoom}}</text>
       </view>
-      <view class="course-item-name-wrap bg-green">
+      <view class="course-item-name-wrap" style="background:{{course.nameEnSimple}}">
         <view class="course-item-name">
-          <text>数据模型与决策</text>
+          <text>{{course.name}}</text>
         </view>
         <view class="course-item-tip">
-          <text>黄诒蓉</text>
+          <text>{{course.teacher}}</text>
         </view>
       </view>
-    </view>
-
-    <view class="course-item-sub-wrap">
-      <view class="course-item-time">
-        <text>14:00-17:00 @震寰堂C3180</text>
-      </view>
-      <view class="course-item-name-wrap  bg-purple">
-        <view class="course-item-name">
-          <text>管理经济学</text>
-        </view>
-        <view class="course-item-tip">
-          <text>符正平</text>
-        </view>
-      </view>
-    </view>
+    </view> 
   </view>
-
-  <view class="course-item-wrap">
-    <view class="course-item-date" style="border-left:solid 14rpx #865fc1;">
-      <text>2019/10/14</text>
-      <text class="course-item-date-tip"> 六天后 星期日</text>
-    </view>
-    <view class="course-item-sub-wrap">
-      <view class="course-item-time">
-        <text>9:00-12:00 @震寰堂C318</text>
-      </view>
-      <view class="course-item-name-wrap bg-orange">
-        <view class="course-item-name">
-          <text>商业伦理</text>
-        </view>
-        <view class="course-item-tip">
-          <text>李非</text>
-        </view>
-      </view>
-    </view>
-
-    <view class="course-item-sub-wrap">
-      <view class="course-item-time">
-        <text>14:00-17:00 @震寰堂C3180</text>
-      </view>
-      <view class="course-item-name-wrap  bg-blue">
-        <view class="course-item-name">
-          <text>财务会计</text>
-        </view>
-        <view class="course-item-tip">
-          <text>郭群</text>
-        </view>
-      </view>
-    </view>
-  </view>
-
-  <view class="course-item-wrap">
-    <view class="course-item-date">
-      <text>2019/10/13</text>
-      <text class="course-item-date-tip"> 五天后 星期六</text>
-    </view>
-    <view class="course-item-sub-wrap">
-      <view class="course-item-time">
-        <text>9:00-12:00 @震寰堂C318</text>
-      </view>
-      <view class="course-item-name-wrap  bg-green">
-        <view class="course-item-name">
-          <text>数据模型与决策</text>
-        </view>
-        <view class="course-item-tip">
-          <text>黄诒蓉</text>
-        </view>
-      </view>
-    </view>
-
-    <view class="course-item-sub-wrap">
-      <view class="course-item-time">
-        <text>14:00-17:00 @震寰堂C3180</text>
-      </view>
-      <view class="course-item-name-wrap  bg-purple">
-        <view class="course-item-name">
-          <text>管理经济学</text>
-        </view>
-        <view class="course-item-tip">
-          <text>符正平</text>
-        </view>
-      </view>
-    </view>
-  </view>
-
-  <view class="course-item-wrap">
-    <view class="course-item-date" style="border-left:solid 14rpx #865fc1;">
-      <text>2019/10/14</text>
-      <text class="course-item-date-tip"> 六天后 星期日</text>
-    </view>
-    <view class="course-item-sub-wrap">
-      <view class="course-item-time">
-        <text>9:00-12:00 @震寰堂C318</text>
-      </view>
-      <view class="course-item-name-wrap bg-orange">
-        <view class="course-item-name">
-          <text>商业伦理</text>
-        </view>
-        <view class="course-item-tip">
-          <text>李非</text>
-        </view>
-      </view>
-    </view>
-
-    <view class="course-item-sub-wrap">
-      <view class="course-item-time">
-        <text>14:00-17:00 @震寰堂C3180</text>
-      </view>
-      <view class="course-item-name-wrap  bg-blue">
-        <view class="course-item-name">
-          <text>财务会计</text>
-        </view>
-        <view class="course-item-tip">
-          <text>郭群</text>
-        </view>
-      </view>
-    </view>
-  </view>
+</view>
+<view wx:else  class="course-item-date" >
+ <text>课表加载中~~</text>
+</view>
 </view>

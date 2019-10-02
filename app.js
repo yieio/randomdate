@@ -2,9 +2,16 @@ var config = require('/utils/config.js');
 
 //app.js
 App({
-  onLaunch: function() {
-    var userToken = wx.getStorageSync('userToken') || {};    
-    if (!userToken.accessToken || userToken.accessToken == null || userToken.accessToken == "") {
+  onLaunch:function() { 
+    wx.login({
+      success:res=>{
+        console.log(res.code);
+      }
+    })
+
+
+    var userToken = wx.getStorageSync('userToken') || null;    
+    if (!userToken|| !userToken.accessToken || userToken.accessToken == "") {
       wx.redirectTo({
         url: 'pages/signup/signup',
       })
@@ -13,8 +20,8 @@ App({
       this.globalData.userToken = userToken;
     }
  
-    var userInfo = wx.getStorageSync('userInfo') || {};
-    if (!userInfo.realName || userInfo.realName == null || userInfo.realName == "") {
+    var userInfo = wx.getStorageSync('userInfo') || null; 
+    if (!userInfo|| !userInfo.realName || userInfo.realName == "") {
       wx.redirectTo({
         url: 'pages/signup/signup',
       })
@@ -46,6 +53,11 @@ App({
 
   api: {
     login: config.host + "/Identity/LoginByWeApp",
-    signup: config.host + "/Identity/UpdateUserInfoByWeApp"
+    signup: config.host + "/Identity/UpdateUserInfoByWeApp",
+    latestCourse: config.host + "/study/GetLatestCourse",
+    classCourse: config.host + "/study/GetClassCourse",
+    classmates: config.host + "/classmate/GetClassmates",
+    classmateProfile: config.host + "/classmate/GetClassmateProfile",
+    editProfile: config.host + "/classmate/EditProfile"
   }
 })
