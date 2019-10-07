@@ -208,6 +208,11 @@ page {
   line-height:37rpx;
   height:37rpx;
 }
+
+.weui-picker {
+  line-height:52rpx;
+  height:52rpx;
+}
  
 
  /**底部弹窗样式**/
@@ -333,12 +338,12 @@ background-color: #f2f2f2;
 }
 
 
-button:not([size='mini']) {
+/* button:not([size='mini']) {
 min-height: 40px;
 width: 184px;
 margin-left: auto;
 margin-right: auto;
-}
+} */
 
 
 button[type='primary'] {

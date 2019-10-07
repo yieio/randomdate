@@ -9,7 +9,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    courses:[]
+    courses:[],
+    scrollViewHeight:0,
+    scrollToViewId:"date5",
+    currentCourseDate:""
   },
 
   /**
@@ -17,6 +20,7 @@ Page({
    */
   getClassCourse:function(classNumber,schoolTerm){
     var _t = this;
+    var _td = _t.data;
     wx.request({
       url: app.api.classCourse + "?classNumber=" + classNumber+"&schoolTerm="+schoolTerm,
       method: "GET",
@@ -35,16 +39,23 @@ Page({
           var courses = [];
           var lastDate = "";
           var courseDate = {};
+          var currentViewId = "";
 
-          for (var i = 0; i < cs.length; i++) { 
+          for (var i = 0,j=0; i < cs.length; i++) { 
             var item = cs[i];
             
             var start = util.formatTime(item.startTime);
             var end = util.formatTime(item.endTime);
             cs[i].timeGap = start + "-" + end;
 
-            if(item.courseDate != lastDate){
-              courses.push(courseDate);
+            if (item.courseDate != lastDate){
+              if (courseDate.date){
+                courses.push(courseDate);
+                if (courseDate.date == _td.currentCourseDate) {
+                  currentViewId = "date"+j; 
+                }  
+                j++;
+              }
               lastDate = item.courseDate;
               var date = new Date(item.courseDate);
               courseDate = {
@@ -53,17 +64,21 @@ Page({
                 week: util.formatWeekDay(date),
                 color:item.nameEnSimple,
                 courseItems:[] 
-              };  
+              }; 
             };
-            courseDate.courseItems.push(cs[i]);
+            courseDate.courseItems.push(cs[i]); 
           };
 
-          //背景颜色加个简拼音控制下
-
+          //背景颜色加个简拼音控制下 
           courses.push(courseDate);
+          console.log(courses);
 
           _t.setData({
-            courses: courses 
+            courses: courses
+          });
+
+          _t.setData({
+            scrollToViewId: currentViewId
           });
 
         } else {
@@ -82,6 +97,21 @@ Page({
    */
   onLoad: function (options) {
     console.log(options);
+    console.log("page/course=>onload");
+    var _t = this;
+
+    // 先取出页面高度 windowHeight
+    wx.getSystemInfo({
+      success: function (res) {
+        _t.setData({
+          scrollViewHeight: res.windowHeight
+        });
+      }
+    });
+
+    _t.setData({
+      currentCourseDate:options.courseDate
+    });
 
     this.getClassCourse(options.classNumber,options.schoolTerm); 
   },
@@ -131,7 +161,9 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
+  onShareAppMessage: function (obj) {
+    return {
+      title: "课程表",
+    };
   }
 })

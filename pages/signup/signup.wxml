@@ -7,9 +7,13 @@
       </view>
 
       <text class="card-title">欢迎来约饭</text>
-      <form bindsubmit="signupFormSubmit" report-submit="true">
-        <view class="card-content">
 
+      <view class="card-content" wx:if="{{isSignup}}">
+      <text class="card-content-tip">查看课程表，蹭饭和了解同学信息</text>
+      </view>
+
+      <form wx:else bindsubmit="signupFormSubmit" report-submit="true" >
+        <view class="card-content">
           <view class="card-form-item">
             <view class="weui-cells__title">真实姓名</view>
             <view class="weui-cells weui-cells_after-title">
@@ -32,9 +36,9 @@
             <view class="weui-cells__title">选择班级</view>
             <view class="weui-cells weui-cells_after-title">
               <view class="weui-cell weui-cell_input">
-                <picker id="classNumber" name="classNumber" bindchange="bindClassPickerChange" value="{{classArrary[classIndex]}}" range="{{classArrary}}">
+                <picker id="classNumber" name="classNumber" range-key="name" bindchange="bindClassPickerChange" value="{{classArrary[classIndex].name}}" range="{{classArrary}}">
                   <view class="weui-picker">
-                    {{classArrary[classIndex]}}
+                    {{classArrary[classIndex].name}}
                   </view>
                 </picker>
               </view>
@@ -50,6 +54,12 @@
           </button>
         </view>
       </form>
+
+      <view class="card-action" wx:if="{{loginFailed}}">
+          <button form-type="submit"  class="action-btn-green" hover-class="action-btn-hover" lang="zh_CN" bindtap="login" >
+            登录
+          </button>
+        </view>
     </view>
   </view>
   <view wx:else>请升级微信版本</view>

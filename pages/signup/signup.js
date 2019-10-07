@@ -10,7 +10,9 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     classIndex: 0,
-    classArrary: ['2019-MBA-PB-1班', '2019-MBA-PB-2班', '2019-MBA-PB-3班', '2019-MBA-PB-4班', '2019-MBA-PB-5班', '2019-MBA-PB-6班'],
+    classArrary: [{
+      name: '2019-MBA-PB-4班'
+    }],
     signupForm: {
       realName: "",
       phoneNumber: "",
@@ -18,10 +20,14 @@ Page({
     },
     signupBtnDisabled: true,
 
+    isSignup: true,
+
+    loginFailed:false,
+
   },
 
   //班级选择
-  bindClassPickerChange: function(e) { 
+  bindClassPickerChange: function(e) {
     this.setData({
       classIndex: e.detail.value
     })
@@ -81,7 +87,7 @@ Page({
     wx.request({
       url: app.api.signup,
       method: "POST",
-      header: { 
+      header: {
         'Authorization': 'Bearer ' + app.globalData.userToken.accessToken
       },
       data: app.globalData.userInfo,
@@ -97,7 +103,7 @@ Page({
           wx.redirectTo({
             url: '../index/index'
           });
-        }else{
+        } else {
           wx.showToast({
             title: '授权登录失败',
             icon: 'none',
@@ -109,54 +115,100 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 获取组织列表
    */
-  onLoad: function(options) {
-    //请求服务器加载用户信息
+  getOrganizations: function(name) {
+    var _t = this;
+    var _td = _t.data;
+    wx.request({
+      url: app.api.organizations,
+      method: "GET",
+      dataType: "json",
+      success: function(result) {
+        console.log(result);
+        if (result.data.type != 200) {
+          wx.showToast({
+            title: '组织/班级列表获取失败',
+            icon: 'none'
+          })
+          return;
+        }
+
+        var cs = result.data.data.classNumbers;
+        if (cs.length > 0) {
+          _t.setData({
+            classArrary: cs
+          });
+        }
+      }
+    });
+  },
+
+  login:function(){
     // 登录
     wx.login({
       success: res => {
         if (res.code) {
-          console.log("usercode1=>" + res.code);
-          console.log("loginApi=>" + app.api.login);
           var _t = this;
           wx.request({
             url: app.api.login + "?code=" + res.code,
             method: "POST",
             dataType: "json",
-            success: function(result) {
-              console.log("wx.login=>")
-              console.log(result);
-
+            success: function (result) {
               //返回标记是否要跳转去设置班级，姓名，手机号等
               if (result.data.type == 200) {
                 var _data = result.data.data;
                 app.globalData.userInfo = _data.userInfo;
                 app.globalData.userInfo.genderName = app.getGenderName(_data.userInfo.gender);
-                
+
                 //记录用户token
                 app.globalData.userToken = _data.token;
                 //设置storage
                 wx.setStorageSync('userInfo', app.globalData.userInfo);
                 wx.setStorageSync('userToken', _data.token);
 
-                _t.setData({ userinfo: app.globalData.userInfo });
+                _t.setData({
+                  userinfo: app.globalData.userInfo
+                });
                 if (_data.userInfo.realName != null && _data.userInfo.classNumber != null) {
                   //跳转到首页
                   wx.redirectTo({
                     url: '../index/index'
                   });
-                }else{
+                } else {
+                  _t.setData({
+                    isSignup: false
+                  });
                   console.log(_data.userInfo.realName)
                 }
               }
+            },
+            fail: function (res) {
+              wx.showToast({
+                title: '服务接口调用失败'
+              })
+              _t.setData(
+                { loginFailed:true}
+              );
+
             }
           });
         } else {
           console.log('登录失败！' + res.errMsg)
         }
       }
-    });
+    }); 
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    //请求服务器加载用户信息
+    this.getOrganizations();
+
+    this.login();
+   
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -175,7 +227,7 @@ Page({
       }
     })
 
-    if (!this.data.canIUse){
+    if (!this.data.canIUse) {
       // 在没有 open-type=getUserInfo 版本的兼容处理
       wx.getUserInfo({
         success: res => {
@@ -231,7 +283,9 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function (obj) {
+    return {
+      title: "欢迎来约饭",
+    };
   }
 })

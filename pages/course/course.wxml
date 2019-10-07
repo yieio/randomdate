@@ -1,7 +1,8 @@
 <!--pages/course/course.wxml-->
 <view class="container">
-<view wx:if="{{courses.length>0}}">
-  <view wx:for="{{courses}}" wx:for-item="cDate" wx:for-index="idx" wx:key="cdate-{{idx}}" class="course-item-wrap">
+<scroll-view scroll-y="true" style="height:{{scrollViewHeight}}px" scroll-into-view="{{scrollToViewId}}">
+
+  <view wx:for="{{courses}}" wx:for-item="cDate" wx:for-index="idx" wx:key="cdate-{{idx}}"  class="course-item-wrap" id="date{{idx}}">
     <view class="course-item-date" style="border-left:solid 14rpx {{cDate.color}};">
       <text>{{cDate.date}}</text>
       <text class="course-item-date-tip"> {{cDate.gap}} {{cDate.week}}</text>
@@ -20,8 +21,6 @@
       </view>
     </view> 
   </view>
-</view>
-<view wx:else  class="course-item-date" >
- <text>课表加载中~~</text>
-</view>
+
+</scroll-view>
 </view>

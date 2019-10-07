@@ -25,28 +25,54 @@
     </view>
   </view>
 
-  <view class="card" animation="{{animationData}}" style="display:none;">
-    <text class="card-title date-title">男同学xx请你吃饭</text>
-    <view class="card-content card-content-tip">
-      <text>男同学xx请你【2019/10/13 星期六】在校一起吃午餐。</text>
+<!--被邀请的view-->
+<view class="card" wx:for="{{inviters}}" wx:for-item="inviter" wx:key="{{inviter.id}}" animation="{{inviter.showAnimation?'animationData':''}}">
+    <text class="card-title bl-purple">{{inviter.title}}</text>
+    <view class="card-content card-content-tip">{{inviter.msg}}
     </view>
-    <view class="card-action" style="">
-      <view class="action-btn action-btn-inline" hover-class="action-btn-hover" style="">匿名拒绝</view>
-      <view class="action-btn action-btn-inline action-btn-right" hover-class="action-btn-hover" style="">接受邀约</view>
+     
+    <view class="card-action" wx:if="{{inviter.appointmentStatus==1}}">
+      <view class="action-btn action-btn-inline" hover-class="action-btn-hover" data-id="{{inviter.id}}" bindtap="rejectAppointment">匿名拒绝</view>
+      <view class="action-btn action-btn-inline action-btn-right" hover-class="action-btn-hover" data-id="{{inviter.id}}" bindtap="acceptAppointment">接受邀约</view>
+    </view>
+
+    <view class="card-action" wx:if="{{appointment.appointmentStatus==10}}">
+      <view class="action-btn" hover-class="action-btn-hover" id="{{appointment.createUserId}}" bindtap='goProfile'>查看同学信息</view>
     </view>
   </view>
 
+<!--被邀请的view结束-->
 
-  <view class="card">
-    <text class="card-title date-title">不要一个人吃午餐</text>
-    <view class="card-content card-content-tip">点击 [我请你] 后会匿名随机给下面的一个同学发出约饭邀请，对方接受后可以看到彼此。吃饭我们是认真的，请守约哦^_^
+  <!--约饭view开始-->
+  <view class="card" animation="{{appointment.showAnimation?'animationData':''}}">
+    <text class="card-title date-title">{{appointment.title}}</text>
+    <view class="card-content card-content-tip">{{appointment.msg}}
     </view>
-    <view class="card-action" style="">
+    <view wx:if="{{appointment.appointmentStatus==0}}" class="card-action" style="">
       <view class="action-btn" hover-class="action-btn-hover" bindtap="openDialog" style="">我请你</view>
     </view>
-  </view>
 
-  <view class="weui-demo-dialog {{istrue ? 'weui-demo-dialog_show' : ''}}">
+    <view wx:elif="{{appointment.appointmentStatus==1}}" class="card-action" style="">
+      <view class="action-btn" hover-class="action-btn-hover" style="">等待截止 {{appointment.endTime}}</view>
+    </view>
+
+    <view wx:elif="{{appointment.appointmentStatus==40||appointment.appointmentStatus==13}}" class="card-action" style="">
+      <view class="action-btn" hover-class="action-btn-hover" bindtap="cancelAppointment" data-id="{{appointment.id}}">取消</view>
+    </view>
+
+    <view class="card-action" wx:if="{{appointment.appointmentStatus==42}}">
+      <view class="action-btn action-btn-inline" hover-class="action-btn-hover" data-id="{{appointment.id}}" bindtap="cancelAppointment">没吃成</view>
+      <view class="action-btn action-btn-inline action-btn-right" hover-class="action-btn-hover" data-id="{{appointment.id}}" bindtap="finishAppointment">吃完了</view>
+    </view>
+
+    <view class="card-action" wx:if="{{appointment.appointmentStatus==10}}">
+      <view class="action-btn" hover-class="action-btn-hover" id="{{appointment.mateUserId}}" bindtap='goProfile'>查看同学信息</view>
+    </view>
+  </view>
+  <!--约饭view结束-->
+
+<!--约饭弹窗开始-->
+  <view class="weui-demo-dialog {{showDialog ? 'weui-demo-dialog_show' : ''}}">
     <view class="weui-mask" bindtap="closeDialog"></view>
     <view class="weui-half-screen-dialog" catchtap="stopEvent">
       <view class="weui-half-screen-dialog__hd">
@@ -63,21 +89,22 @@
       </view>
       <view class="weui-half-screen-dialog__bd">
         <view class="date-item-wrap">
-        <text wx:for="{{dateList}}" wx:for-item="date" wx:key="index" bindtap="selectDate" class="date-item {{dateIndex==index?'active':''}}" data-id="{{index}}">{{date}}</text>
+          <text wx:for="{{dateList}}" wx:for-item="date" wx:key="index" bindtap="selectDate" class="date-item {{dateIndex==index?'active':''}}" data-id="{{index}}">{{date}}</text>
         </view>
 
-         <view class="date-item-wrap time-item-wrap">
-        <text wx:for="{{timeList}}" wx:for-item="time" wx:key="index" bindtap="selectTime" class="date-item {{timeIndex==index?'active':''}}" data-id="{{index}}">{{time}}</text>
+        <view class="date-item-wrap time-item-wrap">
+          <text wx:for="{{timeList}}" wx:for-item="time" wx:key="index" bindtap="selectTime" class="date-item {{timeIndex==index?'active':''}}" data-id="{{index}}">{{time}}</text>
         </view>
         <view class="weui-half-screen-dialog__tips">
-          最近课程日期：2019/10/13
+          {{dateDesc}}
         </view>
       </view>
-      <view class="weui-half-screen-dialog__ft"> 
+      <view class="weui-half-screen-dialog__ft">
         <button type="primary" class="weui-btn" bindtap="makeDate">确定约饭</button>
       </view>
     </view>
   </view>
+  <!--约饭弹窗结束-->
 
 
 
@@ -93,8 +120,8 @@
         <text class="label bg-blue">{{userInfo.genderName}}</text>
         <text class="label bg-orange">{{userInfo.province}}{{userInfo.city}}</text>
         <text class="label bg-yellow">{{userInfo.classNumber}}</text>
-        <text class="label">约饭{{userDateCount.dateCount}}次</text>
-        <text class="label">被约{{userDateCount.callDateCout}}次</text>
+        <text class="label">约饭{{userInfo.dateCount}}次</text>
+        <text class="label">被约{{userInfo.callDateCount}}次</text>
       </view>
     </view>
 
