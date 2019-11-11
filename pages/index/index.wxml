@@ -25,26 +25,26 @@
     </view>
   </view>
 
-<!--被邀请的view-->
-<view class="card" wx:for="{{inviters}}" wx:for-item="inviter" wx:key="{{inviter.id}}" animation="{{inviter.showAnimation?'animationData':''}}">
+  <!--被邀请的view-->
+  <view class="card" wx:for="{{inviters}}" wx:for-item="inviter" wx:key="{{inviter.id}}" animation="{{inviter.showAnimation?animationData:''}}">
     <text class="card-title bl-purple">{{inviter.title}}</text>
     <view class="card-content card-content-tip">{{inviter.msg}}
     </view>
-     
+
     <view class="card-action" wx:if="{{inviter.appointmentStatus==1}}">
       <view class="action-btn action-btn-inline" hover-class="action-btn-hover" data-id="{{inviter.id}}" bindtap="rejectAppointment">匿名拒绝</view>
       <view class="action-btn action-btn-inline action-btn-right" hover-class="action-btn-hover" data-id="{{inviter.id}}" bindtap="acceptAppointment">接受邀约</view>
     </view>
 
-    <view class="card-action" wx:if="{{appointment.appointmentStatus==10}}">
-      <view class="action-btn" hover-class="action-btn-hover" id="{{appointment.createUserId}}" bindtap='goProfile'>查看同学信息</view>
+    <view class="card-action" wx:if="{{inviter.appointmentStatus==10}}">
+      <view class="action-btn" hover-class="action-btn-hover" id="{{inviter.createUserId}}" bindtap='goProfile'>查看同学信息</view>
     </view>
   </view>
 
-<!--被邀请的view结束-->
+  <!--被邀请的view结束-->
 
   <!--约饭view开始-->
-  <view class="card" animation="{{appointment.showAnimation?'animationData':''}}">
+  <view wx:if="{{classmates.length>=1&&userInfo}}" class="card" animation="{{appointment.showAnimation?animationData:''}}">
     <text class="card-title date-title">{{appointment.title}}</text>
     <view class="card-content card-content-tip">{{appointment.msg}}
     </view>
@@ -71,7 +71,34 @@
   </view>
   <!--约饭view结束-->
 
-<!--约饭弹窗开始-->
+  <!--需要完善信息弹窗-->
+  <view class="weui-demo-dialog {{showProfileDialog ? 'weui-demo-dialog_show' : ''}}">
+    <view class="weui-mask" bindtap="closeDialog"></view>
+    <view class="weui-half-screen-dialog" catchtap="stopEvent">
+      <view class="weui-half-screen-dialog__hd">
+        <view class="weui-half-screen-dialog__hd__side">
+          <view bindtap="closeDialog" class="weui-icon-btn weui-icon-btn_close">关闭</view>
+        </view>
+        <view class="weui-half-screen-dialog__hd__main">
+          <text class="weui-half-screen-dialog__title">需要完善个人信息</text>
+        </view>
+        <view class="weui-half-screen-dialog__hd__side">
+        </view>
+      </view>
+      <view class="weui-half-screen-dialog__bd">
+        <view class="weui-half-screen-dialog__tips">
+          需要完善个人姓名和手机号码
+        </view>
+      </view>
+      <view class="weui-half-screen-dialog__ft">
+        <button type="primary" class="weui-btn" data-id="{{userInfo.userId}}" bindtap="goEditProfile">去完善</button>
+      </view>
+    </view>
+  </view>
+
+  <!--需要完善信息弹窗结束-->
+
+  <!--约饭弹窗开始-->
   <view class="weui-demo-dialog {{showDialog ? 'weui-demo-dialog_show' : ''}}">
     <view class="weui-mask" bindtap="closeDialog"></view>
     <view class="weui-half-screen-dialog" catchtap="stopEvent">
@@ -106,12 +133,33 @@
   </view>
   <!--约饭弹窗结束-->
 
+<!--猜猜我谁-->
+ <view  class="card">
+    <text class="card-title bl-purple">猜猜我是谁</text>
+    <view class="card-content card-content-tip">根据同学照片，选出同学名字
+    </view>
+    <view class="card-action" style="">
+      <view class="action-btn" hover-class="action-btn-hover" bindtap="goGameRank" style="">去猜猜</view>
+    </view>
+  </view>
+<!--猜猜我谁结束-->
 
 
   <view class="card">
-    <view class="card-content card-my-wrap">
+    <view class="card-content card-my-wrap" wx:if="{{userInfo==null}}">
+    <view class="my-avatar-wrap">
+        <image class="userinfo-avatar" src="/imgs/logo.png"></image> 
+        <text class="userinfo-nickname card-content-tip">登录后,点击头像查看信息</text>
+      </view>
+
+      <view class="my-label-wrap">
+       <text class="label bg-blue" style="padding:10rpx 40rpx;" bindtap="goSignup">登录</text>
+      </view>
+    </view>
+
+    <view wx:else class="card-content card-my-wrap">
       <view class="my-avatar-wrap">
-        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" id="{{userInfo.userId}}" bindtap='goProfile'></image>
+        <image class="userinfo-avatar iamge-border" src="{{userInfo.avatarUrl}}" id="{{userInfo.userId}}" bindtap='goProfile'></image>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
       </view>
 
@@ -120,8 +168,8 @@
         <text class="label bg-blue">{{userInfo.genderName}}</text>
         <text class="label bg-orange">{{userInfo.province}}{{userInfo.city}}</text>
         <text class="label bg-yellow">{{userInfo.classNumber}}</text>
-        <text class="label">约饭{{userInfo.dateCount}}次</text>
-        <text class="label">被约{{userInfo.callDateCount}}次</text>
+        <text wx:if="{{classmates.length>4}}" class="label">约饭{{userInfo.dateCount}}次</text>
+        <text wx:if="{{classmates.length>4}}" class="label">被约{{userInfo.callDateCount}}次</text>
       </view>
     </view>
 

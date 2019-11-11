@@ -1,19 +1,19 @@
 {
-  "pages": [    
-    "pages/signup/signup",
+  "pages": [
+    "pages/guessname/guessname",
     "pages/index/index",
     "pages/logs/logs",
     "pages/course/course",
     "pages/my/my",
-    
-    "pages/profile/profile"
-    
+    "pages/profile/profile",
+    "pages/signup/signup",
+    "pages/gamerank/gamerank"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#f1f1f1",
     "backgroundColor": "#f1f1f1",
-    "navigationBarTitleText": "随机约饭",
+    "navigationBarTitleText": "闲倚",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json"

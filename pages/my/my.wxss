@@ -1,1 +1,4 @@
 /* pages/my/my.wxss */
+.my-avatar-wrap .iamge-border{
+  border:solid 8rpx #f1f1f1;
+}

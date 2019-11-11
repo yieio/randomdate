@@ -1,0 +1,56 @@
+<!--pages/guessname/guessname.wxml 猜同学名字游戏-->
+<view class="container">
+  <view class="card">
+   <view class="guess-game-info-wrap">
+     <text class="label">用时：30分钟</text>
+     <text class="label">一次过：60人</text>
+     <text class="label">认识：10人</text>
+    </view>
+
+    <view class="guess-img-wrap"> 
+      <image src="/imgs/cj.png" style="height:360rpx;" mode="aspectFit"></image>
+    </view>
+
+    <view class="guess-answer-wrap">
+     <text wx:for="{{answerName}}" class="answer-item" wx:for-item="answer" wx:for-index="idx" wx:key="answer-{{idx}}" bindtap="unSelect" data-id="{{idx}}" >{{answer.name}}</text> 
+    </view>
+
+    <view class="guess-options-wrap">
+     <text wx:for="{{options}}" class="guess-option" wx:for-item="option" wx:for-index="idx" wx:key="opt-{{idx}}" bindtap="select" data-id="{{idx}}" style="visibility:{{option.show?'visible':'hidden'}}">{{option.word}}</text> 
+    </view>
+
+    <view class="card-content card-content-tip">
+    
+    </view>
+
+    <view class="card-action">
+      <view class="action-btn action-btn-inline" hover-class="action-btn-hover" data-id="{{inviter.id}}" bindtap="rejectAppointment">不认识</view>
+    </view>
+  </view>
+
+  <!--同学信息窗口弹窗-->
+  <view class="weui-demo-dialog {{showInfoDialog ? 'weui-demo-dialog_show' : ''}}">
+    <view class="weui-mask"></view>
+    <view class="weui-half-screen-dialog" catchtap="stopEvent">
+      <view class="weui-half-screen-dialog__hd">
+        <view class="weui-half-screen-dialog__hd__side">
+          <view bindtap="closeDialog" class="weui-icon-btn weui-icon-btn_close">关闭</view>
+        </view>
+        <view class="weui-half-screen-dialog__hd__main">
+          <text class="weui-half-screen-dialog__title">同学信息</text>
+        </view>
+        <view class="weui-half-screen-dialog__hd__side">
+        </view>
+      </view>
+      <view class="weui-half-screen-dialog__bd">
+        <view class="weui-half-screen-dialog__tips">
+          游道平
+        </view>
+      </view>
+      <view class="weui-half-screen-dialog__ft">
+        <button type="primary" class="weui-btn" data-id="{{classmate.userId}}" bindtap="goNextClassmate">下一位</button>
+      </view>
+    </view>
+  </view> 
+  <!--同学信息窗口弹窗结束-->
+</view>

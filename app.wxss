@@ -161,6 +161,8 @@ page {
   margin: 10rpx;
   border-radius: 30rpx;
   color: #fff;
+  min-height: 30rpx;
+  vertical-align: middle; 
 }
 
 .label {
@@ -173,6 +175,10 @@ page {
 
 .bg-green {
   background: #7acbbd;
+}
+
+.bg-green-d{
+  background-color: #07c160;
 }
 
 .bg-purple {

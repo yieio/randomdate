@@ -3,33 +3,22 @@ var config = require('/utils/config.js');
 //app.js
 App({
   onLaunch: function() {
-    wx.login({
-      success: res => {
-        console.log(res.code);
-      }
-    })
-
-
+    // wx.login({
+    //   success: res => {
+    //     console.log(res.code);
+    //   }
+    // })
+    
     var userToken = wx.getStorageSync('userToken') || null;
-    if (!userToken || !userToken.accessToken || userToken.accessToken == "") {
-      wx.redirectTo({
-        url: 'pages/signup/signup',
-      })
-    } else {
+    if (userToken && userToken.accessToken.length>0) { 
       //还要判断下 Token 过期情况
       this.globalData.userToken = userToken;
     }
 
     var userInfo = wx.getStorageSync('userInfo') || null;
-    if (!userInfo || !userInfo.realName || userInfo.realName == "") {
-      wx.redirectTo({
-        url: 'pages/signup/signup',
-      })
-    } else {
+    if (userInfo&&userInfo.realName.length>0) {
       this.globalData.userInfo = userInfo;
     }
-
-
   },
 
   //根据git获取性别，0-未知，1-男，2-女

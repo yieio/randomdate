@@ -6,7 +6,6 @@ const formatTime = date => {
    }else{
      return date;
    }
-
 }
  
 const formatDate = date => {
@@ -23,11 +22,11 @@ const formatNumber = n => {
 }
 
 //格式化日期间隔
-const formatDayGap = n  =>{
+const formatDayGap = n  =>{ 
   if (n > 9) {
     return '';
   } else {
-    var dayArr = ["今天", "明天", "后天", "四天后", "五天后", "六天后", "七天后", "八天后", "九天后", "十天后"];
+    var dayArr = ["今天", "明天", "后天", "三天后", "四天后", "五天后", "六天后", "七天后", "八天后", "九天后", "十天后"];
     return dayArr[n];
   } 
 }
@@ -39,7 +38,7 @@ const getDateGap = date => {
   const month = start.getMonth() + 1
   const day = start.getDate()
 
-  start = new Date([year, month, day].map(formatNumber).join('-')+" 00:00:00");
+  start = new Date([year, month, day].map(formatNumber).join('/')+" 00:00:00");
 
   var days = (date.getTime() - start.getTime()) / (24 * 60 * 60 * 1000);
   return parseInt(days);

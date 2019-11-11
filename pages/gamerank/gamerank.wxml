@@ -1,0 +1,46 @@
+<!--pages/gamerank/gamerank.wxml-->
+<view class="container">
+  <view class="card">
+    <view class="card-content card-my-wrap">
+      <view class="my-avatar-wrap">
+        <image class="userinfo-avatar iamge-border" src="https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epR3IZvjnZuzlsS7RibIl3FAFJZ40Sk57D3J7u6q8A8RamRTzRMyiba0GxoQm8DRw8YgiaEhfBOwgJVg/132" id=""></image>
+        <text class="user-game-info">【用时10分钟 | 10人一次过 | 认识10人】</text>
+      </view>
+
+      <view class="my-label-wrap">
+        <text class="label bg-green-d" style="padding:10rpx 40rpx;" bindtap="goGuessName">开始游戏</text>
+      </view>
+    </view>
+
+    <text class="card-title bl-purple">记名达人</text>
+    <view class="card-content">
+      <view class="rank-item-wrap">
+        <view class="rank-item-avatar">
+          <image src="https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epR3IZvjnZuzlsS7RibIl3FAFJZ40Sk57D3J7u6q8A8RamRTzRMyiba0GxoQm8DRw8YgiaEhfBOwgJVg/132"></image>
+        </view>
+        <view class="rank-item-content">
+          <view>
+            <text class="rank-item-name">游道平</text>
+          </view>
+          <text class="rank-item-info">[用时30分钟 | 30人一次过 | 认识50人]</text>
+        </view>
+
+      </view>
+
+      <view class="spliter-line"></view>
+
+      <view class="rank-item-wrap">
+        <view class="rank-item-avatar">
+          <image src="https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epR3IZvjnZuzlsS7RibIl3FAFJZ40Sk57D3J7u6q8A8RamRTzRMyiba0GxoQm8DRw8YgiaEhfBOwgJVg/132"></image>
+        </view>
+        <view class="rank-item-content">
+          <view>
+            <text class="rank-item-name">游道平</text>
+          </view>
+          <text class="rank-item-info">[用时30分钟 | 30人一次过 | 认识50人]</text>
+        </view>
+      </view>
+
+    </view>
+  </view>
+</view>

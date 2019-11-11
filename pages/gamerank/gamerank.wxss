@@ -1,0 +1,36 @@
+/* pages/gamerank/gamerank.wxss */
+/**用户游戏信息**/
+.user-game-info{
+  font-size: 28rpx;
+}
+
+
+/**排名列表**/
+
+.rank-item-wrap {
+  display: flex;
+  flex-direction: row;
+}
+
+.rank-item-avatar image {
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 20rpx;
+}
+
+.rank-item-name{
+  font-size:32rpx;
+  padding-left: 20rpx;
+  line-height: 1.6;
+}
+
+.rank-item-info{
+  font-size:28rpx;
+  line-height: 2;
+  padding-left: 20rpx;
+}
+
+.spliter-line{
+  border-top:dashed 1px #ddd;
+  margin:20rpx 0;
+}

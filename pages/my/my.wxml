@@ -7,17 +7,17 @@
     <view class="card-content card-my-wrap">
       
       <view class="my-avatar-wrap">
-        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></image>
+        <image class="userinfo-avatar iamge-border" src="{{userInfo.avatarUrl}}"></image>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      </view>
+      </view>  
 
       <view class="my-label-wrap">
         <text class="label bg-purple">{{userInfo.realName}}</text>
         <text class="label bg-blue">{{userInfo.genderName}}</text>
         <text class="label bg-orange">{{userInfo.province}}{{userInfo.city}}</text>
         <text class="label bg-yellow">{{userInfo.classNumber}}</text>
-        <text class="label">约饭{{userInfo.dateCount}}次</text>
-        <text class="label">被约{{userInfo.callDateCount}}次</text>
+        <text wx:if="{{classmates.length>4}}" class="label">约饭{{userInfo.dateCount}}次</text>
+        <text wx:if="{{classmates.length>4}}" class="label">被约{{userInfo.callDateCount}}次</text>
       </view>
     </view>
 

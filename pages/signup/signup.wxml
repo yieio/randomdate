@@ -3,13 +3,13 @@
   <view wx:if="{{canIUse}}">
     <view class="card">
       <view class="my-avatar-wrap">
-        <image class="userinfo-avatar" src="/imgs/rice_date_logo.png"></image>
+        <image class="userinfo-avatar" src="/imgs/logo.png"></image>
       </view>
 
-      <text class="card-title">欢迎来约饭</text>
+      <text class="card-title">欢迎来闲倚</text>
 
       <view class="card-content" wx:if="{{isSignup}}">
-      <text class="card-content-tip">查看课程表，蹭饭和了解同学信息</text>
+      <text class="card-content-tip">查看课程表，了解同学信息</text>
       </view>
 
       <form wx:else bindsubmit="signupFormSubmit" report-submit="true" >
@@ -49,7 +49,7 @@
 
         </view>
         <view class="card-action" style="">
-          <button form-type="submit" open-type="getUserInfo" class="action-btn-green" hover-class="action-btn-hover" lang="zh_CN" disabled="{{signupBtnDisabled}}" bindgetuserinfo="getUserInfo">
+          <button form-type="submit" open-type="getUserInfo" class="action-btn-green" hover-class="action-btn-hover" lang="zh_CN" bindgetuserinfo="getUserInfo" disabled="{{signupBtnDisabled}}">
             授权登录
           </button>
         </view>

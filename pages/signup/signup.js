@@ -22,7 +22,7 @@ Page({
 
     isSignup: true,
 
-    loginFailed:false,
+    loginFailed: false,
 
   },
 
@@ -98,11 +98,13 @@ Page({
           app.globalData.userInfo = _data.userInfo;
           app.globalData.userInfo.genderName = app.getGenderName(_data.userInfo.gender);
           //设置storage
-          wx.setStorageSync('userInfo', app.globalData.userInfo)
+          wx.setStorageSync('userInfo', app.globalData.userInfo);
           //跳转到首页
           wx.redirectTo({
             url: '../index/index'
           });
+
+
         } else {
           wx.showToast({
             title: '授权登录失败',
@@ -144,7 +146,7 @@ Page({
     });
   },
 
-  login:function(){
+  login: function() {
     // 登录
     wx.login({
       success: res => {
@@ -154,7 +156,7 @@ Page({
             url: app.api.login + "?code=" + res.code,
             method: "POST",
             dataType: "json",
-            success: function (result) {
+            success: function(result) {
               //返回标记是否要跳转去设置班级，姓名，手机号等
               if (result.data.type == 200) {
                 var _data = result.data.data;
@@ -170,7 +172,7 @@ Page({
                 _t.setData({
                   userinfo: app.globalData.userInfo
                 });
-                if (_data.userInfo.realName != null && _data.userInfo.classNumber != null) {
+                if (_data.userInfo.classNumber != null && _data.userInfo.realName != null && _data.userInfo.realName.length > 0) {
                   //跳转到首页
                   wx.redirectTo({
                     url: '../index/index'
@@ -179,17 +181,25 @@ Page({
                   _t.setData({
                     isSignup: false
                   });
-                  console.log(_data.userInfo.realName)
+                  //console.log(_data.userInfo.realName)
                 }
+              } else {
+                wx.showToast({
+                  title: '登录失败',
+                  icon: 'none'
+                })
+                _t.setData({
+                  loginFailed: true
+                });
               }
             },
-            fail: function (res) {
+            fail: function(res) {
               wx.showToast({
                 title: '服务接口调用失败'
               })
-              _t.setData(
-                { loginFailed:true}
-              );
+              _t.setData({
+                loginFailed: true
+              });
 
             }
           });
@@ -197,7 +207,7 @@ Page({
           console.log('登录失败！' + res.errMsg)
         }
       }
-    }); 
+    });
   },
 
   /**
@@ -208,7 +218,7 @@ Page({
     this.getOrganizations();
 
     this.login();
-   
+
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -283,7 +293,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function (obj) {
+  onShareAppMessage: function(obj) {
     return {
       title: "欢迎来约饭",
     };

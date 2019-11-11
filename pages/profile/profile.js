@@ -10,7 +10,7 @@ Page({
     userInfo: {},
     genderArrary: ['保密', '靓仔', '美女'],
     genderIndex: 0,
-    classArrary: ['2019-MBA-PB-1班', '2019-MBA-PB-2班', '2019-MBA-PB-3班', '2019-MBA-PB-4班', '2019-MBA-PB-5班', '2019-MBA-PB-6班'],
+    classArrary: [{name:'2019-MBA-PB-4班'}],
     classIndex: 0,
 
   },
@@ -140,12 +140,43 @@ Page({
   },
 
   /**
+  * 获取组织列表
+  */
+  getOrganizations: function (name) {
+    var _t = this;
+    var _td = _t.data;
+    wx.request({
+      url: app.api.organizations,
+      method: "GET",
+      dataType: "json",
+      success: function (result) {
+        console.log(result);
+        if (result.data.type != 200) {
+          wx.showToast({
+            title: '组织/班级列表获取失败',
+            icon: 'none'
+          })
+          return;
+        }
+
+        var cs = result.data.data.classNumbers;
+        if (cs.length > 0) {
+          _t.setData({
+            classArrary: cs
+          });
+        }
+      }
+    });
+  },
+
+  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    if (app.globalData.userInfo) {
-
-      this.getClassmateProfile(1);
+    console.log(options);
+    if (app.globalData.userInfo) { 
+      this.getOrganizations();
+      this.getClassmateProfile(app.globalData.userInfo.userId);
     } else {
       wx.redirectTo({
         url: '../signup/signup'

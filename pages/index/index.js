@@ -10,7 +10,7 @@ Page({
     courseDate: {
       hasCourse: false
     },
-    latestCourse: [], 
+    latestCourse: [],
     animationData: {},
     shakeTimeHandler: null,
     schoolTerm: 1,
@@ -34,37 +34,82 @@ Page({
 
     dateList: ["今天", "明天", "后天", "最近课程那一天"],
     dateIndex: 3,
-    dateDesc:"",
+    dateDesc: "",
 
     timeList: ["早餐", "午餐", "晚餐", "宵夜"],
-    timeIndex: 1
+    timeIndex: 1,
+
+    //转入隐藏的时间
+    hideTime: 0,
+
+    showProfileDialog: false,
+    isGoEdit: false,
   },
+
+  goGameRank:function(e){
+    wx.navigateTo({
+      url: '../gamerank/gamerank'
+    })
+  },
+
+  /**
+   * 完善个人信息点击
+   */
+  goEditProfile: function(e) {
+    console.log(e);
+    var _id = e.currentTarget.dataset.id;
+    this.setData({
+      isGoEdit: true
+    });
+    wx.navigateTo({
+      url: '../profile/profile?userId=' + _id
+    })
+  },
+
   openDialog: function() {
+    var _td = this.data;
+    if (_td.userInfo.realName == null) {
+      this.setData({
+        showProfileDialog: true
+      });
+      return;
+    }
     this.setData({
       showDialog: true
     })
   },
   closeDialog: function() {
     this.setData({
-      showDialog: false
+      showDialog: false,
+      showProfileDialog: false
     })
   },
   //事件处理函数
   goCourse: function() {
     var _td = this.data;
+    var classNumber = _td.userInfo ? _td.userInfo.classNumber:"2019-MBA-PB-4班";
     wx.navigateTo({
-      url: '../course/course?classNumber=' + _td.userInfo.classNumber + "&schoolTerm=" + _td.schoolTerm + "&courseDate=" + _td.courseDate.date,
+      url: '../course/course?classNumber=' + classNumber + "&schoolTerm=" + _td.schoolTerm + "&courseDate=" + _td.courseDate.date,
     })
+  },
+
+/**
+ * 去登录
+ */
+  goSignup:function(){
+    wx.redirectTo({
+      url: '../signup/signup',
+    })
+
   },
   /**
    * 点击同学头像跳转同学档案页面
    */
   goProfile: function(e) {
-    console.log("goProfile=>");
-    console.log(e);
-
+    var _td = this.data;
+    var _cnt = _td.classmates.length;
     wx.navigateTo({
-      url: '../my/my?userId=' + e.currentTarget.id
+      url: '../my/my?userId=' + e.currentTarget.id + "&classmates=" + _cnt
     })
   },
 
@@ -107,10 +152,10 @@ Page({
             schoolTerm: item.schoolTerm
           });
 
-          if(_td.dateIndex==3){
+          if (_td.dateIndex == 3) {
             var dateDesc = _td.dateList[3] + "：" + courseDate.date;
             _t.setData({
-              dateDesc:dateDesc
+              dateDesc: dateDesc
             });
           }
 
@@ -125,11 +170,11 @@ Page({
 
   },
 
-/**
- * 格式化约饭信息
- */
-  formatAppointment:function(app,iscreater){
-    if(iscreater){
+  /**
+   * 格式化约饭信息
+   */
+  formatAppointment: function(app, iscreater) {
+    if (iscreater) {
       if (app.appointmentStatus == 1) {
         //等待回应
         app.title = "约饭邀请已发出";
@@ -147,12 +192,12 @@ Page({
         //约饭过期没人回应
         app.title = "约饭过期未回应";
         app.msg = app.content;
-      }else if(app.appointmentStatus == 42){
+      } else if (app.appointmentStatus == 42) {
         //已经过了约会时间
         app.title = "已过约会时间";
         app.msg = app.content;
       }
-    }else{
+    } else {
       if (app.appointmentStatus == 1) {
         //等待回应
         app.title = "有人请你吃饭";
@@ -164,12 +209,12 @@ Page({
         app.title = "与人有约";
         app.msg = app.content;
         app.hasInviter = true;
-      }else {
+      } else {
         app.hasInviter = false;
       }
     }
 
-    return app; 
+    return app;
   },
 
   /**
@@ -203,9 +248,8 @@ Page({
         }
 
         var apps = resultData.data.creaters;
-        console.log(apps);
         if (apps.length > 0) {
-          var creater = _t.formatAppointment(apps[0],true);
+          var creater = _t.formatAppointment(apps[0], true);
 
           _t.setData({
             appointment: creater
@@ -216,11 +260,11 @@ Page({
         apps = resultData.data.inviters;
         var inviters = [];
         if (apps.length > 0) {
-          for (var i = 0; i < apps.length;i++){
+          for (var i = 0; i < apps.length; i++) {
             var creater = _t.formatAppointment(apps[i], false);
-            if(creater.hasInviter){
+            if (creater.hasInviter) {
               inviters.push(creater);
-            } 
+            }
           }
 
           _t.setData({
@@ -300,17 +344,17 @@ Page({
           })
           return;
         }
-        
+
         //拒绝成功，更新
         var app = result.data.data.appointment;
         var inviters = _td.inviters;
-        for(var i=0;i<inviters.length;i++){
+        for (var i = 0; i < inviters.length; i++) {
           var item = inviters[i];
-          if(item.id == app.id){
-            inviters.splice(i,1);
+          if (item.id == app.id) {
+            inviters.splice(i, 1);
           }
         }
- 
+
         _t.setData({
           inviters: inviters
         });
@@ -322,7 +366,7 @@ Page({
   /**
    * 接受约饭
    */
-  acceptAppointment: function (e) {
+  acceptAppointment: function(e) {
     var _t = this;
     var _td = this.data;
     console.log(e);
@@ -334,7 +378,7 @@ Page({
         'Authorization': 'Bearer ' + app.globalData.userToken.accessToken
       },
       dataType: "json",
-      success: function (result) {
+      success: function(result) {
         console.log(result);
         if (result.data.type == 401) {
           wx.redirectTo({
@@ -368,7 +412,7 @@ Page({
     })
   },
 
-  finishAppointment: function(e){
+  finishAppointment: function(e) {
     var _t = this;
     var _td = this.data;
     console.log(e);
@@ -380,7 +424,7 @@ Page({
         'Authorization': 'Bearer ' + app.globalData.userToken.accessToken
       },
       dataType: "json",
-      success: function (result) {
+      success: function(result) {
         console.log(result);
         if (result.data.type == 401) {
           wx.redirectTo({
@@ -447,10 +491,10 @@ Page({
     var month = now.getMonth() + 1;
     var day = now.getDate() + id;
 
-    var dateDesc = _td.dateList[id]+"："+[year, month, day].join('/');
+    var dateDesc = _td.dateList[id] + "：" + [year, month, day].join('/');
 
     if (id == 3) {
-      dateDesc = _td.dateList[id] +"："+_td.courseDate.date;
+      dateDesc = _td.dateList[id] + "：" + _td.courseDate.date;
     }
 
     this.setData({
@@ -478,12 +522,12 @@ Page({
 
     var now = new Date();
     var appointmentDate = "";
-    var timeType
+
 
     var year = now.getFullYear();
     var month = now.getMonth() + 1;
     var day = now.getDate() + _td.dateIndex;
-    
+
     appointmentDate = [year, month, day].join('/') + " 00:00:00";
 
     if (_td.dateIndex == 3) {
@@ -525,7 +569,7 @@ Page({
 
         console.log(resultData.data.appointment);
 
-        var ap = _t.formatAppointment(resultData.data.appointment,true);
+        var ap = _t.formatAppointment(resultData.data.appointment, true);
 
         _t.setData({
           showDialog: false,
@@ -550,13 +594,20 @@ Page({
       userInfo: app.globalData.userInfo
     });
 
-    if (app.globalData.userInfo) {
-      this.getLatestCourse(app.globalData.userInfo.classNumber);
+    var classNumber = '2019-MBA-PB-4班';
 
+    if (app.globalData.userInfo) { 
       this.getClassmates();
-
       this.getAppointments();
+      if (app.globalData.userInfo.classNumber && app.globalData.userInfo.classNumber.length>0){
+        classNumber = app.globalData.userInfo.classNumber;
+      }
+    }else{
+      console.log("app.globalData.userInfo=>")
+      console.log(app.globalData.userInfo);
     }
+
+    this.getLatestCourse(classNumber);
 
     console.log("page/index=>onload");
   },
@@ -590,24 +641,57 @@ Page({
           animationData: animation.export()
         })
       }
-    }.bind(this), 2000)
+    }.bind(this), 2000);
+
+    //加载数据hide隐藏超过10s以上
+    if (this.data.hideTime > 0) {
+      var nowTime = (new Date()).getTime();
+      if ((nowTime - this.data.hideTime) / 1000 >= 10) {
+        if (app.globalData.userInfo) {
+          this.getLatestCourse(app.globalData.userInfo.classNumber);
+          this.getClassmates();
+          this.getAppointments();
+        }
+        this.setData({
+          hideTime: nowTime
+        });
+      }
+    };
+
+    if (this.data.isGoEdit) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        showProfileDialog: false
+      });
+    }
+  },
+  /**
+   * 记录页面隐藏时间，显示时根据隐藏时间确定是否要刷新
+   */
+  onHide: function() {
+    // 页面从前台变为后台时执行
+    var hideTime = (new Date()).getTime();
+    console.log("hideTime=>" + hideTime);
+    this.setData({
+      hideTime: hideTime
+    });
   },
 
-/**
- * 下拉刷新
- */
-  onPullDownRefresh:function(){
+  /**
+   * 下拉刷新
+   */
+  onPullDownRefresh: function() {
     if (app.globalData.userInfo) {
       //this.getLatestCourse(app.globalData.userInfo.classNumber); 
       //this.getClassmates(); 
-      this.getAppointments();
-      wx.stopPullDownRefresh();
+      this.getAppointments(); 
     };
+    wx.stopPullDownRefresh();
   },
 
-  onShareAppMessage:function(obj){
+  onShareAppMessage: function(obj) {
     return {
-      title:"",
+      title: "",
     };
 
   },
