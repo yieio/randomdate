@@ -19,6 +19,11 @@ App({
     if (userInfo&&userInfo.realName.length>0) {
       this.globalData.userInfo = userInfo;
     }
+
+    var updateCount = wx.getStorageSync('updateCount') || 0;
+    if (updateCount) {
+      this.globalData.updateCount = updateCount;
+    }
   },
 
   //根据git获取性别，0-未知，1-男，2-女
@@ -38,6 +43,7 @@ App({
     userInfoEx: null,
     userToken: null,
     authSetting: null,
+    updateCount:0//记录更新版本，每次更新加1，其他页面显示时对比该数据确认是否要重新加载
   },
 
   api: {

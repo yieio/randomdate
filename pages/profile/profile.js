@@ -12,6 +12,7 @@ Page({
     genderIndex: 0,
     classArrary: [{name:'2019-MBA-PB-4班'}],
     classIndex: 0,
+    classValue: '2019-MBA-PB-4班',
 
   },
 
@@ -28,8 +29,10 @@ Page({
  * 班级选择
  */
   bindClassPickerChange: function (e) {
+    var classVal = this.data.classArrary[e.detail.value].name;
     this.setData({
-      classIndex: e.detail.value
+      classIndex: e.detail.value,
+      classValue: classVal
     })
   },
 
@@ -38,6 +41,7 @@ Page({
    */
   getClassmateProfile: function(userId) {
     var _t = this;
+    var _td = this.data;
     wx.request({
       url: app.api.classmateProfile + "?userid=" + userId,
       method: "GET",
@@ -59,21 +63,20 @@ Page({
 
         var cp = result.data.data.classmateProfile;
         cp.genderName = app.getGenderName(cp.gender);
+ 
+        _t.setData({
+          userInfo: cp,
+          genderIndex: cp.gender,
+          classValue: cp.classNumber
+        });
 
-        var cas = _t.data.classArrary;
-
-        for (var i = 0; i < cas.length; i++) {
-          if (cas[i] == cp.classNumber) {
+        for (var i = 0; i < _td.classArrary.length; i++) {
+          if (_td.classArrary[i].name == _td.classValue) {
             _t.setData({
               classIndex: i
             });
           }
         }
-
-        _t.setData({
-          userInfo: cp,
-          genderIndex: cp.gender
-        });
 
       }
     });
@@ -105,6 +108,7 @@ Page({
     };
 
     formData.userId = this.data.userInfo.userId;
+    formData.classNumber = this.data.classArrary[formData.classNumber].name;
 
     //发起接口调用,保存用户信息
     wx.request({
@@ -120,8 +124,10 @@ Page({
           var _data = result.data.data;
           app.globalData.userInfo = _data.userInfo;
           app.globalData.userInfo.genderName = app.getGenderName(_data.userInfo.gender);
+          app.globalData.updateCount +=1;
           //设置storage
           wx.setStorageSync('userInfo', app.globalData.userInfo)
+          wx.setStorageSync('updateCount', app.globalData.updateCount)
           //跳转到首页
           wx.showToast({
             title: '保存成功',
@@ -164,6 +170,14 @@ Page({
           _t.setData({
             classArrary: cs
           });
+        }
+
+        for(var i=0;i<_td.classArrary.length;i++){
+          if (_td.classArrary[i].name==_td.classValue){
+            _t.setData({
+              classIndex: i
+            });
+          }
         }
       }
     });

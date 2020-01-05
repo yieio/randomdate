@@ -6,6 +6,7 @@ const app = getApp()
 
 Page({
   data: {
+    updateCount:0,
     userInfo: {},
     courseDate: {
       hasCourse: false
@@ -658,12 +659,15 @@ Page({
       }
     };
 
-    if (this.data.isGoEdit) {
+    if (this.data.isGoEdit || this.data.updateCount != app.globalData.updateCount) {
       this.setData({
         userInfo: app.globalData.userInfo,
         showProfileDialog: false
       });
+      this.data.updateCount = app.globalData.updateCount;
     }
+
+    
   },
   /**
    * 记录页面隐藏时间，显示时根据隐藏时间确定是否要刷新

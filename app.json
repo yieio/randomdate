@@ -1,13 +1,14 @@
 {
   "pages": [
-    "pages/guessname/guessname",
+    
     "pages/index/index",
     "pages/logs/logs",
     "pages/course/course",
     "pages/my/my",
     "pages/profile/profile",
     "pages/signup/signup",
-    "pages/gamerank/gamerank"
+    "pages/gamerank/gamerank",
+    "pages/guessname/guessname"
   ],
   "window": {
     "backgroundTextStyle": "light",
