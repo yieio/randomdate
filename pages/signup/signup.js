@@ -13,23 +13,27 @@ Page({
     classArrary: [{
       name: '2019-MBA-PB-4班'
     }],
+    classIndex: 0,
+    classValue: '2019-MBA-PB-4班',
     signupForm: {
       realName: "",
       phoneNumber: "",
       classNumber: "",
     },
     signupBtnDisabled: true,
-
+    //是否已经注册
     isSignup: true,
-
+    //登录失败
     loginFailed: false,
 
   },
 
   //班级选择
   bindClassPickerChange: function(e) {
+    var classVal = this.data.classArrary[e.detail.value].name;
     this.setData({
-      classIndex: e.detail.value
+      classIndex: e.detail.value,
+      classValue: classVal
     })
   },
 
@@ -59,7 +63,27 @@ Page({
     console.log(e);
 
     var formData = e.detail.value;
-    console.log(formData);
+    formData.realName = formData.realName.replace(/^\s*|\s*$/g, "");
+    if (formData.realName.length < 2) {
+      wx.showToast({
+        title: '真实姓名至少需要2个字符',
+        icon: 'none',
+        duration: 2000
+      });
+      return false;
+    };
+
+    formData.phoneNumber = formData.phoneNumber.replace(/^\s*|\s*$/g, "");
+    if (formData.phoneNumber.length != 11) {
+      wx.showToast({
+        title: '手机号码应为11位数字',
+        icon: 'none',
+        duration: 2000
+      });
+      return false;
+    };
+    formData.classNumber = this.data.classArrary[formData.classNumber].name;
+
     this.data.signupForm = formData;
     this.data.signupForm["formId"] = e.detail.formId;
   },
@@ -142,6 +166,14 @@ Page({
             classArrary: cs
           });
         }
+
+        for (var i = 0; i < _td.classArrary.length; i++) {
+          if (_td.classArrary[i].name == _td.classValue) {
+            _t.setData({
+              classIndex: i
+            });
+          }
+        }
       }
     });
   },
@@ -217,8 +249,13 @@ Page({
     //请求服务器加载用户信息
     this.getOrganizations();
 
-    this.login();
+    if (app.globalData.shareClassNumber) {
+      this.setData({
+        classValue:app.globalData.shareClassNumber 
+      })
+    }
 
+    this.login(); 
     // 获取用户信息
     wx.getSetting({
       success: res => {

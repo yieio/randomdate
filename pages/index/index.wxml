@@ -1,5 +1,7 @@
 <!--index.wxml-->
 <view class="container">
+<view style="font-size:24rpx;background:#EC5F56;padding:24rpx 16rpx;color:#ffffff;">添加到"我的小程序"，方便查看</view>
+
   <view class="card nextcourse">
     <text class="card-title nextcourse-title">最近课程</text>
 
@@ -10,7 +12,7 @@
       </view>
 
       <view class="course-info-wrap">
-        <view wx:for="{{latestCourse}}" wx:for-index="idx" wx:key="course-{{idx}}" class="course-info">
+        <view wx:for="{{latestCourse}}" wx:for-index="idx" wx:key="unique" class="course-info">
           <text class="course-date-tip">{{item.timeGap}} @{{item.classRoom}}</text>
           <view class="course-name">{{item.name}}</view>
           <view class="course-name-tip">{{item.teacher}}</view>
@@ -26,7 +28,7 @@
   </view>
 
   <!--被邀请的view-->
-  <view class="card" wx:for="{{inviters}}" wx:for-item="inviter" wx:key="{{inviter.id}}" animation="{{inviter.showAnimation?animationData:''}}">
+  <view class="card" wx:for="{{inviters}}" wx:for-item="inviter" wx:key="unique" animation="{{inviter.showAnimation?animationData:''}}">
     <text class="card-title bl-purple">{{inviter.title}}</text>
     <view class="card-content card-content-tip">{{inviter.msg}}
     </view>
@@ -179,7 +181,7 @@
       还没有同学，发到群里让他们进来先吧^o^
     </view>
     <view wx:else class="card-content clearfix">
-      <view wx:for="{{classmates}}" wx:for-item="cmate" wx:for-index="idx" wx:key="cmate-{{idx}}" data-userid="{{cmate.userId}}" id="{{cmate.userId}}" bindtap="goProfile" class="classmate-item-wrap ">
+      <view wx:for="{{classmates}}" wx:for-item="cmate" wx:for-index="idx" wx:key="unique" data-userid="{{cmate.userId}}" id="{{cmate.userId}}" bindtap="goProfile" class="classmate-item-wrap ">
         <view class="classmate-item-header">
           <image src='{{cmate.avatarUrl}}'></image>
         </view>

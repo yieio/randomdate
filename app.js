@@ -39,6 +39,7 @@ App({
 
 
   globalData: {
+    shareClassNumber:null,//通过分享链接进入后会记录
     userInfo: null,
     userInfoEx: null,
     userToken: null,

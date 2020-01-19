@@ -36,9 +36,9 @@
             <view class="weui-cells__title">选择班级</view>
             <view class="weui-cells weui-cells_after-title">
               <view class="weui-cell weui-cell_input">
-                <picker id="classNumber" name="classNumber" range-key="name" bindchange="bindClassPickerChange" value="{{classArrary[classIndex].name}}" range="{{classArrary}}">
+                <picker id="classNumber" name="classNumber" range-key="name" bindchange="bindClassPickerChange" value="{{classIndex}}" range="{{classArrary}}" >
                   <view class="weui-picker">
-                    {{classArrary[classIndex].name}}
+                    {{classValue}}
                   </view>
                 </picker>
               </view>

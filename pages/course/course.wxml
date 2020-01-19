@@ -2,12 +2,12 @@
 <view class="container">
 <scroll-view scroll-y="true" style="height:{{scrollViewHeight}}px" scroll-into-view="{{scrollToViewId}}">
 
-  <view wx:for="{{courses}}" wx:for-item="cDate" wx:for-index="idx" wx:key="cdate-{{idx}}"  class="course-item-wrap" id="date{{idx}}">
+  <view wx:for="{{courses}}" wx:for-item="cDate" wx:for-index="idx" wx:key="unique"  class="course-item-wrap" id="date{{idx}}">
     <view class="course-item-date" style="border-left:solid 14rpx {{cDate.color}};">
       <text>{{cDate.date}}</text>
       <text class="course-item-date-tip"> {{cDate.gap}} {{cDate.week}}</text>
     </view>
-    <view wx:for="{{cDate.courseItems}}" wx:for-item="course" wx:for-index="idy" wx:key="course-{{idy}}" class="course-item-sub-wrap">
+    <view wx:for="{{cDate.courseItems}}" wx:for-item="course" wx:for-index="idy" wx:key="unique" class="course-item-sub-wrap">
       <view class="course-item-time">
         <text>{{course.timeGap}} @{{course.classRoom}}</text>
       </view>

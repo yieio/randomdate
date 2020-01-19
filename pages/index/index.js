@@ -590,12 +590,19 @@ Page({
   },
 
   //页面onload 
-  onLoad: function() {
+  onLoad: function (options) {
+    console.log(options);
+    console.log("page/index=>onload");
     this.setData({
       userInfo: app.globalData.userInfo
     });
 
     var classNumber = '2019-MBA-PB-4班';
+    //分享传入的班级，需要保留
+    if(options.classNumber){
+      classNumber = options.classNumber;
+      app.globalData.shareClassNumber = classNumber;
+    }
 
     if (app.globalData.userInfo) { 
       this.getClassmates();
@@ -603,10 +610,8 @@ Page({
       if (app.globalData.userInfo.classNumber && app.globalData.userInfo.classNumber.length>0){
         classNumber = app.globalData.userInfo.classNumber;
       }
-    }else{
-      console.log("app.globalData.userInfo=>")
-      console.log(app.globalData.userInfo);
-    }
+    }else{ 
+    }    
 
     this.getLatestCourse(classNumber);
 
@@ -694,8 +699,13 @@ Page({
   },
 
   onShareAppMessage: function(obj) {
+    var classNumber = '2019-MBA-PB-4班';
+    if (app.globalData.userInfo.classNumber && app.globalData.userInfo.classNumber.length > 0) {
+      classNumber = app.globalData.userInfo.classNumber;
+    }
     return {
-      title: "",
+      title: "最近课程",
+      path: 'pages/index/index?classNumber=' + classNumber
     };
 
   },

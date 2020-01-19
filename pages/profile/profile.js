@@ -13,7 +13,6 @@ Page({
     classArrary: [{name:'2019-MBA-PB-4班'}],
     classIndex: 0,
     classValue: '2019-MBA-PB-4班',
-
   },
 
 /**
