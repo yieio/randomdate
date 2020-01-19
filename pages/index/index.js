@@ -6,13 +6,14 @@ const app = getApp()
 
 Page({
   data: {
-    updateCount:0,
+    updateCount: 0,
     userInfo: {},
     courseDate: {
       hasCourse: false
     },
     latestCourse: [],
     animationData: {},
+    hideAnimation: {},
     shakeTimeHandler: null,
     schoolTerm: 1,
     classmates: [],
@@ -45,9 +46,11 @@ Page({
 
     showProfileDialog: false,
     isGoEdit: false,
+    //是否显示添加到我的小程序
+    showAddStarNotice: false
   },
 
-  goGameRank:function(e){
+  goGameRank: function(e) {
     wx.navigateTo({
       url: '../gamerank/gamerank'
     })
@@ -88,16 +91,16 @@ Page({
   //事件处理函数
   goCourse: function() {
     var _td = this.data;
-    var classNumber = _td.userInfo ? _td.userInfo.classNumber:"2019-MBA-PB-4班";
+    var classNumber = _td.userInfo ? _td.userInfo.classNumber : "2019-MBA-PB-4班";
     wx.navigateTo({
       url: '../course/course?classNumber=' + classNumber + "&schoolTerm=" + _td.schoolTerm + "&courseDate=" + _td.courseDate.date,
     })
   },
 
-/**
- * 去登录
- */
-  goSignup:function(){
+  /**
+   * 去登录
+   */
+  goSignup: function() {
     wx.redirectTo({
       url: '../signup/signup',
     })
@@ -590,7 +593,7 @@ Page({
   },
 
   //页面onload 
-  onLoad: function (options) {
+  onLoad: function(options) {
     console.log(options);
     console.log("page/index=>onload");
     this.setData({
@@ -599,19 +602,18 @@ Page({
 
     var classNumber = '2019-MBA-PB-4班';
     //分享传入的班级，需要保留
-    if(options.classNumber){
+    if (options.classNumber) {
       classNumber = options.classNumber;
       app.globalData.shareClassNumber = classNumber;
     }
 
-    if (app.globalData.userInfo) { 
+    if (app.globalData.userInfo) {
       this.getClassmates();
       this.getAppointments();
-      if (app.globalData.userInfo.classNumber && app.globalData.userInfo.classNumber.length>0){
+      if (app.globalData.userInfo.classNumber && app.globalData.userInfo.classNumber.length > 0) {
         classNumber = app.globalData.userInfo.classNumber;
       }
-    }else{ 
-    }    
+    } else {}
 
     this.getLatestCourse(classNumber);
 
@@ -619,6 +621,7 @@ Page({
   },
 
   onShow: function() {
+    var _t = this;
     var animation = wx.createAnimation({
       duration: 2000,
       timingFunction: 'linear',
@@ -672,7 +675,29 @@ Page({
       this.data.updateCount = app.globalData.updateCount;
     }
 
-    
+    //判断是否显示提醒用户添加到"我的小程序"
+    if (app.globalData.firstView == 0) {
+      this.setData({
+        showAddStarNotice: true
+      });
+ 
+      //设置提醒显示时间
+      setTimeout(function() {
+        app.globalData.firstView = 1;
+        wx.setStorage({
+          key: 'firstView',
+          data: 1,
+        })
+        _t.setData({
+          showAddStarNotice: false
+        });
+ 
+      }.bind(this), 8000)
+
+
+    }
+
+
   },
   /**
    * 记录页面隐藏时间，显示时根据隐藏时间确定是否要刷新
@@ -691,16 +716,16 @@ Page({
    */
   onPullDownRefresh: function() {
     if (app.globalData.userInfo) {
-      //this.getLatestCourse(app.globalData.userInfo.classNumber); 
+      this.getLatestCourse(app.globalData.userInfo.classNumber); 
       //this.getClassmates(); 
-      this.getAppointments(); 
+      this.getAppointments();
     };
     wx.stopPullDownRefresh();
   },
 
   onShareAppMessage: function(obj) {
     var classNumber = '2019-MBA-PB-4班';
-    if (app.globalData.userInfo.classNumber && app.globalData.userInfo.classNumber.length > 0) {
+    if (app.globalData.userInfo&&app.globalData.userInfo.classNumber && app.globalData.userInfo.classNumber.length > 0) {
       classNumber = app.globalData.userInfo.classNumber;
     }
     return {

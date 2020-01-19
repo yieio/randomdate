@@ -20,6 +20,11 @@ App({
       this.globalData.userInfo = userInfo;
     }
 
+    var firstView = wx.getStorageSync('firstView') || null;
+    if (firstView) {
+      this.globalData.firstView = firstView;
+    }
+
     var updateCount = wx.getStorageSync('updateCount') || 0;
     if (updateCount) {
       this.globalData.updateCount = updateCount;
@@ -39,6 +44,7 @@ App({
 
 
   globalData: {
+    firstView:0,//是否首次访问
     shareClassNumber:null,//通过分享链接进入后会记录
     userInfo: null,
     userInfoEx: null,

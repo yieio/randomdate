@@ -1,6 +1,7 @@
 <!--index.wxml-->
 <view class="container">
-<view style="font-size:24rpx;background:#EC5F56;padding:24rpx 16rpx;color:#ffffff;">添加到"我的小程序"，方便查看</view>
+<view wx:if="{{showAddStarNotice}}" animation="{{hideAnimation}}" style="font-size:24rpx;background:#EC5F56;padding:26rpx 32rpx;color:#ffffff;">点击<image src="/imgs/goAddStar.png" style="width:50rpx;height:20rpx; vertical-align:middle; margin:0 6rpx;"></image>添加到"我的小程序"，方便查看
+</view>
 
   <view class="card nextcourse">
     <text class="card-title nextcourse-title">最近课程</text>
