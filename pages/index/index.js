@@ -118,13 +118,14 @@ Page({
   },
 
   //获取最新课程
-  getLatestCourse: function(classNumber) {
+  getLatestCourse: function(classNumber,userId) {
     var _t = this;
     var _td = _t.data;
     wx.request({
-      url: app.api.latestCourse + "?classNumber=" + classNumber,
+      url: app.api.latestCourse,
       method: "GET",
       dataType: "json",
+      data:{classNumber:classNumber,userId:userId},
       success: function(result) {
         console.log(app.api.latestCourse + "?classNumber=" + classNumber + "=>");
         console.log(result);
@@ -601,6 +602,7 @@ Page({
     });
 
     var classNumber = '2019-MBA-PB-4班';
+    var userId = 0;
     //分享传入的班级，需要保留
     if (options.classNumber) {
       classNumber = options.classNumber;
@@ -612,10 +614,11 @@ Page({
       this.getAppointments();
       if (app.globalData.userInfo.classNumber && app.globalData.userInfo.classNumber.length > 0) {
         classNumber = app.globalData.userInfo.classNumber;
+        userId = app.globalData.userInfo.userId;
       }
     } else {}
 
-    this.getLatestCourse(classNumber);
+    this.getLatestCourse(classNumber,userId);
 
     console.log("page/index=>onload");
   },
@@ -657,7 +660,7 @@ Page({
       var nowTime = (new Date()).getTime();
       if ((nowTime - this.data.hideTime) / 1000 >= 10) {
         if (app.globalData.userInfo) {
-          this.getLatestCourse(app.globalData.userInfo.classNumber);
+          this.getLatestCourse(app.globalData.userInfo.classNumber,app.globalData.userInfo.userId);
           this.getClassmates();
           this.getAppointments();
         }
@@ -716,7 +719,7 @@ Page({
    */
   onPullDownRefresh: function() {
     if (app.globalData.userInfo) {
-      this.getLatestCourse(app.globalData.userInfo.classNumber); 
+      this.getLatestCourse(app.globalData.userInfo.classNumber,app.globalData.userInfo.userId); 
       //this.getClassmates(); 
       this.getAppointments();
     };

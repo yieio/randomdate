@@ -3,6 +3,24 @@ page{
   background: #f1f1f1;
 }
 
+.mycourse-button-wrap{
+  position: fixed;
+z-index: 99;
+bottom: 100rpx;
+right: 60rpx;
+width: 110rpx;
+height: 110rpx; 
+text-align: center;
+font-size: 24rpx;
+}
+
+.mycourse-button-img{
+  width: 110rpx;
+height: 110rpx; 
+border-radius: 110rpx;
+box-shadow: 2rpx 4rpx 4rpx #bbbbbb;
+}
+
 .course-item-wrap{
   margin:28rpx;
   margin-bottom:36rpx;

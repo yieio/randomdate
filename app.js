@@ -42,6 +42,14 @@ App({
     return result;
   },
 
+  /**
+   * 检查登录状态
+   */
+  checkLogin:function(){
+
+
+  },
+
 
   globalData: {
     firstView:0,//是否首次访问
@@ -67,6 +75,11 @@ App({
     classmates: config.host + "/classmate/GetClassmates",
     organizations: config.host +"/classmate/GetOrganizations",
     classmateProfile: config.host + "/classmate/GetClassmateProfile",
-    editProfile: config.host + "/classmate/EditProfile"
+    editProfile: config.host + "/classmate/EditProfile",
+    getMyCourse:config.host+"/study/GetMyCourse",
+    getMyCourseDate:config.host+"/study/GetMyCourseDate",
+    addMyCourse:config.host+"/study/AddMyCourse",
+    deleteMyCourseDate:config.host+"/study/deleteMyCourse",
+    updateMyCourse:config.host+"/study/UpdateMyCourse",
   }
 })

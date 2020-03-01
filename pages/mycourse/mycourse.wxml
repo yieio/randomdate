@@ -1,0 +1,118 @@
+<!--pages/mycourse.wxml-->
+<view class="container">
+	<view class="card title-only">
+		<view class="card-title-wrap"><text class="card-title">已选修课程</text>
+			<text class="label count-label">{{myCourses.length}}</text>
+		</view>
+		<view class="card-btn-wrap">
+			<view class="btn-view btn-view-add" hover-class="btn-view-hover" bindtap="switchAddPanel"><text>{{switchBtnText}}</text></view>
+		</view>
+
+	</view>
+
+	<!--选修课列表开始-->
+	<view wx:if="{{!isShowAddPanel}}" class="mycourse-list-wrap">
+		<view wx:for="{{myCourses}}" wx:for-item="course" wx:for-index="idx" wx:key="unique" id="{{course.id}}" class="card">
+			<view class="card-title-outwrap">
+				<view class="card-title-wrap"><text class="card-title bl-blue">{{course.name}}</text>
+				</view>
+				<view class="card-btn-wrap">
+					<view class="btn-view btn-view-add" hover-class="btn-view-hover" data-id="{{course.id}}" bindtap="goMyCourseInfo"><text>设置</text></view>
+				</view>
+			</view>
+
+			<view class="card-content">
+				<view class="course-info-wrap card-content-tip">
+					<view><text>老师姓名: {{course.teacher}}</text></view>
+					<view><text>开课时间: {{course.startTime}}</text></view>
+					<view><text>结课时间: {{course.endTime}}</text></view>
+				</view>
+			</view>
+
+			<!-- <view class="card-action" style="">
+				<view class="action-btn" hover-class="action-btn-hover" style="" bindtap='goCourseClassmate'>课程同学</view>
+			</view> -->
+
+		</view>
+
+		 
+	</view>
+	<!--选修课列表结束-->
+
+	<!--选修课添加面板开始-->
+	<view wx:if="{{isShowAddPanel}}" class="card add-mycourse-wrap">
+		<view class="card-title-wrap">
+			<text class="card-title  bl-blue">添加选修课程</text>
+		</view>
+		<form bindsubmit="courseFormSubmit" report-submit="true">
+			<view class="card-content">
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">课程名称</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<input id="name" name="name" class="weui-input" placeholder="请输入课程名称" adjust-position value="" />
+						</view>
+					</view>
+				</view>
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">老师姓名</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<input id="teacher" name="teacher" class="weui-input" placeholder="请输入老师姓名" adjust-position value="" />
+						</view>
+					</view>
+				</view>
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">课室名</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<input id="classRoom" name="classRoom" class="weui-input" placeholder="请输入课室名" adjust-position value="" />
+						</view>
+					</view>
+				</view>
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">首节课日期</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<picker id="courseDate" name="courseDate" mode="date" value="{{courseDate}}" start="2020-01-01" bindchange="bindDateChange">
+								<input class="picker weui-input" value="{{courseDate}}" placeholder="请选择首节课日期" disabled="true" />
+
+							</picker>
+						</view>
+					</view>
+				</view>
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">首节课开始-结束时间</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<picker name="startTime" class="weui-input-inline" mode="time" value="{{startTime}}" start="08:00" end="23:00" bindchange="bindStartTimeChange">
+								<input class="picker weui-input" value="{{startTime}}" placeholder="开始时间" disabled="true" />
+							</picker>
+
+							<picker name="endTime" class="weui-input-inline margin-left10" mode="time" value="{{endTime}}" start="08:30" end="23:00" bindchange="bindEndTimeChange">
+								<input class="weui-input margin-left10" value="{{endTime}}" placeholder="截止时间" disabled="true" />
+
+							</picker>
+
+						</view>
+					</view>
+				</view>
+
+
+			</view>
+
+			<view class="card-action">
+			<button form-type="submit"  class="action-btn-green" hover-class="action-btn-hover" disabled="{{submitBtnDisabled}}">
+            确认添加
+          </button>
+				
+			</view>
+		</form>
+	</view>
+	<!--选修课添加面板结束-->
+</view>

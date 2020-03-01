@@ -1,5 +1,11 @@
 <!--pages/course/course.wxml-->
 <view class="container">
+<!--固定悬浮，我的选修课程进入按钮-->
+<view class="mycourse-button-wrap" bindtap="goMyCourse">
+  <image class="mycourse-button-img" src="/imgs/mycourses.png"></image>
+  <text>选修课</text>
+</view>
+
 <scroll-view scroll-y="true" style="height:{{scrollViewHeight}}px" scroll-into-view="{{scrollToViewId}}">
 
   <view wx:for="{{courses}}" wx:for-item="cDate" wx:for-index="idx" wx:key="unique"  class="course-item-wrap" id="date{{idx}}">
@@ -23,4 +29,5 @@
   </view>
 
 </scroll-view>
+ 
 </view>

@@ -1,0 +1,129 @@
+<!--pages/mycourseinfo/mycourseinfo.wxml-->
+<!--自选课设置页面，维护课程名称，老师，课时列表-->
+<view class="container">
+	<view class="card">
+		<view class="card-title-wrap"><text class="card-title">课程信息</text> 
+		</view>
+		<view class="card-btn-wrap">
+			<view class="btn-view btn-view-add" hover-class="btn-view-hover" bindtap="updateMyCourseInfo"><text>保存</text></view>
+		</view>
+
+		<form bindsubmit="profileFormSubmit" report-submit="true">
+			<view class="card-content">
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">课程名称</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<input id="name" name="name" class="weui-input" placeholder="请输入课程名称" bindinput="bindCourseInfoInput" adjust-position value="{{myCourseInfo.name}}" />
+						</view>
+					</view>
+				</view>
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">老师姓名</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<input id="teacher" name="teacher" class="weui-input" placeholder="请输入老师姓名" bindinput="bindCourseInfoInput" adjust-position value="{{myCourseInfo.teacher}}" />
+						</view>
+					</view>
+				</view>
+			</view>
+		</form>
+	</view>
+
+	<view class="card title-only">
+		<view class="card-title-wrap"><text class="card-title">课程天数</text>
+			<text class="label count-label">{{myCourseDates.length}}</text>
+		</view>
+		<view class="card-btn-wrap">
+			<view class="btn-view btn-view-add" hover-class="btn-view-hover" bindtap="switchAddPanel"><text>{{switchBtnText}}</text></view>
+		</view>
+	</view>
+	<!--课程上课时间列表开始-->
+	<view wx:if="{{!isShowAddPanel}}" class="course-time-list-wrap">
+
+		<view wx:for="{{myCourseDates}}" wx:for-item="course" wx:for-index="idx" wx:key="unique" id="{{course.id}}" class="card">
+			<view class="card-title-wrap">
+				<view class="card-title course-date-wrap border-left-none">
+					<text class="course-date">{{course.courseDate}}</text>
+					<text class="course-date-tip"> {{course.gap}} {{course.week}}</text>
+				</view>
+			</view>
+			<view class="card-btn-wrap">
+				<view class="btn-view btn-view-warning" hover-class="btn-view-hover" data-id="{{course.id}}" bindtap="deleteMyCourseDate"><text>删除</text></view>
+			</view>
+
+			<view class="card-content card-content-tip">
+				<view class="course-info-wrap">
+					<view class="course-info">
+						<text class="">{{course.timeGap}} @{{course.classRoom}}</text>
+						<view class="course-tip" wx:if="{{course.isExam}}"><text class="bg-orange exam-tip">考试</text></view>
+					</view>
+				</view>
+			</view>
+
+		</view>
+
+
+	</view>
+	<!--课程上课时间列表结束-->
+
+	<!--添加上课时间开始-->
+	<view wx:if="{{isShowAddPanel}}" class="card add-mycourse-wrap">
+		<view class="card-title-wrap">
+			<text class="card-title bl-green">添加上课时间</text>
+		</view>
+		<form bindsubmit="courseFormSubmit" report-submit="true">
+			<view class="card-content">
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">课室名</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<input id="classRoom" name="classRoom" class="weui-input" placeholder="请输入课室名" adjust-position value="{{myCourseInfo.classRoom}}" />
+						</view>
+					</view>
+				</view>
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">上课日期</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<picker  name="courseDate" mode="date" value="{{courseDate}}" start="2020-01-01" bindchange="bindDateChange">
+								<input class="picker weui-input" value="{{courseDate}}" placeholder="请选择上课日期" disabled="true" />
+
+							</picker>
+						</view>
+					</view>
+				</view>
+
+				<view class="card-form-item">
+					<view class="weui-cells__title">开始-结束时间</view>
+					<view class="weui-cells weui-cells_after-title">
+						<view class="weui-cell weui-cell_input">
+							<picker name="startTime" class="weui-input-inline" mode="time" value="{{startTime}}" start="08:00" end="23:00" bindchange="bindStartTimeChange">
+								<input class="picker weui-input" value="{{startTime}}" placeholder="开始时间" disabled="true" />
+							</picker>
+
+							<picker  name="endTime" class="weui-input-inline margin-left10" mode="time" value="{{endTime}}" start="08:30" end="23:00" bindchange="bindEndTimeChange">
+								<input class="weui-input margin-left10" value="{{endTime}}" placeholder="截止时间" disabled="true" />
+
+							</picker>
+
+						</view>
+					</view>
+				</view>
+
+
+			</view>
+
+			<view class="card-action">
+					<button form-type="submit"  class="action-btn-green" hover-class="action-btn-hover" disabled="{{submitBtnDisabled}}">
+            确认添加
+          </button>
+			</view>
+		</form>
+	</view>
+	<!--添加上课时间结束-->
+</view>

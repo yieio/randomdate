@@ -1,5 +1,5 @@
 {
-  "pages": [
+  "pages": [ 
     "pages/index/index",
     "pages/logs/logs",
     "pages/course/course",
@@ -7,7 +7,9 @@
     "pages/profile/profile",
     "pages/signup/signup",
     "pages/gamerank/gamerank",
-    "pages/guessname/guessname"
+    "pages/guessname/guessname",
+    "pages/mycourse/mycourse",
+    "pages/mycourseinfo/mycourseinfo"
   ],
   "window": {
     "backgroundTextStyle": "light",

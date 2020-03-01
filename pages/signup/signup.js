@@ -181,7 +181,7 @@ Page({
   login: function() {
     // 登录
     wx.login({
-      success: res => {
+      success: res => { 
         if (res.code) {
           var _t = this;
           wx.request({

@@ -16,18 +16,31 @@ Page({
   },
 
   /**
+   * 我的选修课
+   */
+  goMyCourse:function(){
+    wx.navigateTo({
+      url: '../mycourse/mycourse'
+    })
+
+  },
+
+  /**
    * 获取学期课程表
    */
   getClassCourse:function(classNumber,schoolTerm){
     var _t = this;
     var _td = _t.data;
+    var userId = 0;
+    if (app.globalData.userInfo) {
+      userId = app.globalData.userInfo.userId; 
+    }
     wx.request({
-      url: app.api.classCourse + "?classNumber=" + classNumber+"&schoolTerm="+schoolTerm,
+      url: app.api.classCourse,
       method: "GET",
       dataType: "json",
-      success: function (result) {
-        console.log(app.api.classCourse + "?classNumber=" + classNumber + "&schoolTerm=" + schoolTerm + "=>");
-        console.log(result);
+      data:{classNumber:classNumber,schoolTerm:schoolTerm,userId:userId},
+      success: function (result) { 
         if (result.data.type == 200) {
           var cs = result.data.data.courses;
           

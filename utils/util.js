@@ -7,6 +7,15 @@ const formatTime = date => {
      return date;
    }
 }
+
+/**
+ * 日期字符串
+ * @param {*} dateTime 
+ * 2019-09-30T09:00:00 要输出 2019/09/30 09:00
+ */
+const formatDateTime = dateTime=>{ 
+  return dateTime.replace(/-/g,'/').replace('T',' '); 
+}
  
 const formatDate = date => {
   const year = date.getFullYear()
@@ -62,5 +71,6 @@ module.exports = {
   getDateGap: getDateGap,
   formatWeekDay: formatWeekDay,
   formatDate: formatDate,
-  formatDayGap: formatDayGap
+  formatDayGap: formatDayGap,
+  formatDateTime:formatDateTime,
 }

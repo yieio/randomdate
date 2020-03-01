@@ -1,0 +1,25 @@
+/* pages/mycourseinfo/mycourseinfo.wxss */
+@import "../mycourse/mycourse.wxss";
+
+.mycourse-info-card{
+  padding-top:0;
+}
+
+.course-date {
+  font-size: 38rpx;  
+}
+
+.course-date-tip {
+  font-size: 28rpx;
+  color: #888;
+}
+
+.exam-tip{
+  padding: 0rpx 20rpx;
+  border-radius: 30rpx;
+  color:#ffffff;
+  display: inline-block;
+  font-size: 24rpx;
+  vertical-align: middle;
+}
+
